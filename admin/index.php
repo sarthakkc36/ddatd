@@ -1,6 +1,8 @@
 <?php
+define('ALLOWED_ACCESS', true);
 session_start();
-include '../includes/config.php';
+require_once '../includes/config.php';
+require_once '../includes/Database.php';
 
 // Check if user is already logged in
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
@@ -14,15 +16,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     
-    // Simple authentication (in a real app, use proper password hashing)
-    // Default credentials: admin / admin123
-    if ($username === 'admin' && $password === 'admin123') {
-        $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_username'] = $username;
-        header('Location: dashboard.php');
-        exit;
-    } else {
-        $error = 'Invalid username or password';
+    try {
+        $db = Database::getInstance();
+        $user = $db->selectOne(
+            "SELECT * FROM users WHERE username = :username AND role = 'admin'",
+            ['username' => $username]
+        );
+        
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_username'] = $username;
+            $_SESSION['admin_id'] = $user['id'];
+            $_SESSION['csrf_token'] = generate_csrf_token();
+            
+            // Log successful login
+            log_error("Admin login successful: {$username}");
+            
+            header('Location: dashboard.php');
+            exit;
+        } else {
+            $error = 'Invalid username or password';
+            // Log failed attempt
+            log_error("Failed admin login attempt for username: {$username}");
+        }
+    } catch (Exception $e) {
+        $error = 'An error occurred. Please try again later.';
+        log_error("Login error: " . $e->getMessage());
     }
 }
 ?>

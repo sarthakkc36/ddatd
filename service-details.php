@@ -1,71 +1,42 @@
 <?php
-$service = isset($_GET['service']) ? $_GET['service'] : '';
+require_once 'includes/Services.php';
 
-// Service data array (in a real application, this would come from a database)
-$services = [
-    'home-nursing' => [
-        'title' => 'Home Medical Care',
-        'hero_image' => 'home-nursing-hero.jpg',
-        'description' => 'Our professional home medical care service provides skilled doctor visits and treatment in the comfort of your home in Kathmandu.',
-        'features' => [
-            'Skilled medical care by registered doctors',
-            '24/7 availability for critical care needs',
-            'Medication management and administration',
-            'Wound care and dressing changes',
-            'Post-surgery care and recovery support',
-            'Vital signs monitoring and health assessments'
-        ],
-        'benefits' => [
-            'Personalized care in familiar surroundings',
-            'Reduced risk of hospital-acquired infections',
-            'Greater comfort and independence',
-            'Cost-effective compared to hospital stays',
-            'Family involvement in care process'
-        ],
-        'pricing' => [
-            'Hourly Rate: NPR 5,000-7,500',
-            'Daily Rate: NPR 30,000-45,000',
-            'Weekly Package: NPR 180,000-250,000',
-            'Monthly Package: NPR 700,000-900,000'
-        ]
-    ],
-    'elderly-assistance' => [
-        'title' => 'Elderly Assistance',
-        'hero_image' => 'elderly-assistance-hero.jpg',
-        'description' => 'Comprehensive care and support services designed specifically for seniors, enabling them to maintain independence and quality of life.',
-        'features' => [
-            'Personal care and hygiene assistance',
-            'Mobility support and fall prevention',
-            'Medication reminders and management',
-            'Light housekeeping and meal preparation',
-            'Companionship and emotional support',
-            'Transportation to appointments'
-        ],
-        'benefits' => [
-            'Enhanced quality of life',
-            'Maintained independence',
-            'Reduced risk of falls and accidents',
-            'Social interaction and engagement',
-            'Peace of mind for family members'
-        ],
-        'pricing' => [
-            'Half-Day Care: NPR 12,000-15,000',
-            'Full-Day Care: NPR 20,000-25,000',
-            'Weekly Package: NPR 120,000-150,000',
-            'Monthly Package: NPR 450,000-550,000'
-        ]
-    ]
-    // Add more services as needed
-];
+// Get service ID from URL
+$serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Get current service data
-$serviceData = isset($services[$service]) ? $services[$service] : null;
+// Initialize Services handler
+$servicesHandler = new Services();
+
+// Get service details
+$serviceData = $servicesHandler->getServiceById($serviceId);
 
 // Redirect to services page if service not found
 if (!$serviceData) {
     header('Location: services.php');
     exit();
 }
+
+// Parse features and benefits from description
+$description_parts = explode("\n", $serviceData['description']);
+$main_description = array_shift($description_parts);
+
+// Default features and benefits if not specified in description
+$features = [
+    'Professional medical care by qualified doctors',
+    '24/7 availability for medical needs',
+    'Personalized care plans',
+    'Regular health monitoring',
+    'Emergency response services',
+    'Comprehensive medical support'
+];
+
+$benefits = [
+    'Care in comfortable home environment',
+    'Reduced hospital visits',
+    'Better recovery outcomes',
+    'Peace of mind for family',
+    'Cost-effective healthcare solution'
+];
 ?>
 
 <?php include 'includes/header.php'; ?>
@@ -108,14 +79,19 @@ if (!$serviceData) {
             <!-- Sidebar -->
             <div class="service-sidebar">
                 <div class="pricing-box" data-aos="fade-left">
-                    <h3>Pricing Options</h3>
-                    <ul>
-                        <?php foreach ($serviceData['pricing'] as $price): ?>
-                            <li><?php echo $price; ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <p class="pricing-note">* Prices may vary based on specific care requirements</p>
-                    <a href="booking.php?service=<?php echo $service; ?>" class="btn btn-primary">Book This Service</a>
+                    <h3>Service Details</h3>
+                    <div class="price-details">
+                        <div class="price-item">
+                            <span class="label">Base Price:</span>
+                            <span class="value"><?php echo $servicesHandler->formatPrice($serviceData['price']); ?></span>
+                        </div>
+                        <div class="price-item">
+                            <span class="label">Duration:</span>
+                            <span class="value"><?php echo $servicesHandler->formatDuration($serviceData['duration']); ?></span>
+                        </div>
+                    </div>
+                    <p class="pricing-note">* Final price may vary based on specific care requirements and duration</p>
+                    <a href="booking.php?id=<?php echo $serviceData['id']; ?>" class="btn btn-primary">Book This Service</a>
                 </div>
 
                 <div class="contact-box" data-aos="fade-left">
@@ -202,7 +178,7 @@ if (!$serviceData) {
             <h2>Ready to Start Your Care Journey?</h2>
             <p>Book a consultation today to discuss your specific care needs and create a personalized care plan.</p>
             <div class="cta-buttons">
-                <a href="booking.php?service=<?php echo $service; ?>" class="btn btn-primary">Book This Service</a>
+                <a href="booking.php?id=<?php echo $serviceData['id']; ?>" class="btn btn-primary">Book This Service</a>
                 <a href="contact.php" class="btn btn-outline">Contact Us</a>
             </div>
         </div>

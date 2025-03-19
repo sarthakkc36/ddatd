@@ -1,74 +1,63 @@
 <?php
 session_start();
 require_once 'includes/auth.php';
-require_once 'includes/Service.php';
 require_admin();
 
-// Initialize Service class
-$serviceHandler = new Service();
+// Handle logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
 
-// Handle form submission
+// Placeholder for blog functionality
 $message = '';
 $messageType = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (isset($_POST['action'])) {
-            if ($_POST['action'] === 'add') {
-                $serviceHandler->createService($_POST);
-                $message = 'Service added successfully!';
-                $messageType = 'success';
-                header('Location: services.php');
-                exit;
-            } elseif ($_POST['action'] === 'edit') {
-                $serviceHandler->updateService($_POST['id'], $_POST);
-                $message = 'Service updated successfully!';
-                $messageType = 'success';
-                header('Location: services.php');
-                exit;
-            }
-        }
-    } catch (Exception $e) {
-        $message = $e->getMessage();
-        $messageType = 'error';
-    }
+if (isset($_GET['action']) && $_GET['action'] === 'add') {
+    $action = 'add';
+} elseif (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) {
+    $action = 'edit';
+    $postId = (int)$_GET['id'];
+    // In a real app, you would fetch the post data here
+} else {
+    $action = 'list';
 }
 
-// Handle delete action
-if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-    try {
-        $serviceHandler->deleteService($_GET['id']);
-        $message = 'Service deleted successfully!';
-        $messageType = 'success';
-    } catch (Exception $e) {
-        $message = $e->getMessage();
-        $messageType = 'error';
-    }
-}
-
-// Determine if we're adding, editing, or listing services
-$action = isset($_GET['action']) ? $_GET['action'] : 'list';
-$serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-
-// Get service data
-if ($action === 'edit' && $serviceId > 0) {
-    $serviceData = $serviceHandler->getServiceById($serviceId);
-    if (!$serviceData) {
-        $message = 'Service not found!';
-        $messageType = 'error';
-        $action = 'list';
-    }
-}
-
-// Get all services for listing
-$services = $action === 'list' ? $serviceHandler->getAllServices() : [];
+// Sample blog posts for demonstration
+$blogPosts = [
+    [
+        'id' => 1,
+        'title' => 'The Importance of Regular Health Check-ups',
+        'excerpt' => 'Regular health check-ups are essential for maintaining good health and detecting potential issues early.',
+        'author' => 'Dr. Smith',
+        'date' => '2025-03-15',
+        'status' => 'published'
+    ],
+    [
+        'id' => 2,
+        'title' => 'Understanding Telemedicine: Benefits and Limitations',
+        'excerpt' => 'Telemedicine has revolutionized healthcare delivery, especially during the pandemic.',
+        'author' => 'Dr. Johnson',
+        'date' => '2025-03-10',
+        'status' => 'published'
+    ],
+    [
+        'id' => 3,
+        'title' => 'Nutrition Tips for a Stronger Immune System',
+        'excerpt' => 'Your diet plays a crucial role in maintaining a healthy immune system.',
+        'author' => 'Dr. Patel',
+        'date' => '2025-03-05',
+        'status' => 'published'
+    ]
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Services - Doctors At Door Step</title>
+    <title>Manage Blog Posts - Doctors At Door Step</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -235,8 +224,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             color: var(--error-color);
         }
         
-        /* Services Table */
-        .services-table {
+        /* Blog Posts Table */
+        .blog-table {
             width: 100%;
             background-color: var(--white);
             border-radius: 10px;
@@ -244,56 +233,45 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             overflow: hidden;
         }
         
-        .services-table table {
+        .blog-table table {
             width: 100%;
             border-collapse: collapse;
         }
         
-        .services-table th, .services-table td {
+        .blog-table th, .blog-table td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
         }
         
-        .services-table th {
+        .blog-table th {
             background-color: var(--light-color);
             font-weight: 600;
         }
         
-        .services-table tr:last-child td {
+        .blog-table tr:last-child td {
             border-bottom: none;
         }
         
-        .services-table tr:hover {
+        .blog-table tr:hover {
             background-color: rgba(44, 123, 229, 0.05);
         }
         
-        .service-icon {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(44, 123, 229, 0.1);
-            color: var(--primary-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .service-status {
+        .post-status {
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
         }
         
-        .status-active {
+        .status-published {
             background-color: rgba(16, 185, 129, 0.1);
             color: var(--success-color);
         }
         
-        .status-inactive {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: var(--error-color);
+        .status-draft {
+            background-color: rgba(107, 122, 153, 0.1);
+            color: var(--secondary-color);
         }
         
         .action-buttons {
@@ -301,7 +279,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             gap: 10px;
         }
         
-        .btn-edit, .btn-delete {
+        .btn-edit, .btn-delete, .btn-view {
             padding: 5px 10px;
             border-radius: 5px;
             font-size: 12px;
@@ -309,6 +287,16 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s;
+        }
+        
+        .btn-view {
+            background-color: rgba(107, 122, 153, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .btn-view:hover {
+            background-color: var(--secondary-color);
+            color: var(--white);
         }
         
         .btn-edit {
@@ -331,8 +319,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             color: var(--white);
         }
         
-        /* Service Form */
-        .service-form {
+        /* Blog Post Form */
+        .blog-form {
             background-color: var(--white);
             border-radius: 10px;
             box-shadow: var(--box-shadow);
@@ -358,7 +346,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         }
         
         .form-group textarea {
-            min-height: 100px;
+            min-height: 200px;
             resize: vertical;
         }
         
@@ -408,17 +396,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             font-size: 0.85rem;
             margin-top: 0.25rem;
         }
-
-        .form-group input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        .form-group input[type="number"]::-webkit-outer-spin-button,
-        .form-group input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
+        
         .text-center {
             text-align: center;
         }
@@ -441,7 +419,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
                 display: block;
             }
             
-            .services-table {
+            .blog-table {
                 overflow-x: auto;
             }
         }
@@ -459,7 +437,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             <a href="dashboard.php" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
-            <a href="services.php" class="menu-item active">
+            <a href="services.php" class="menu-item">
                 <i class="fas fa-hand-holding-medical"></i> Services
             </a>
             <a href="team.php" class="menu-item">
@@ -468,7 +446,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             <a href="testimonials.php" class="menu-item">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
-            <a href="blog.php" class="menu-item">
+            <a href="blog.php" class="menu-item active">
                 <i class="fas fa-blog"></i> Blog Posts
             </a>
             <a href="inquiries.php" class="menu-item">
@@ -494,17 +472,17 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         <div class="page-header">
             <h1 class="page-title">
                 <?php if ($action === 'add'): ?>
-                    Add New Service
+                    Add New Blog Post
                 <?php elseif ($action === 'edit'): ?>
-                    Edit Service
+                    Edit Blog Post
                 <?php else: ?>
-                    Manage Services
+                    Manage Blog Posts
                 <?php endif; ?>
             </h1>
             
             <?php if ($action === 'list'): ?>
-                <a href="services.php?action=add" class="add-new-btn">
-                    <i class="fas fa-plus"></i> Add New Service
+                <a href="blog.php?action=add" class="add-new-btn">
+                    <i class="fas fa-plus"></i> Add New Post
                 </a>
             <?php endif; ?>
         </div>
@@ -516,44 +494,45 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         <?php endif; ?>
         
         <?php if ($action === 'list'): ?>
-            <!-- Services List -->
-            <div class="services-table">
+            <!-- Blog Posts List -->
+            <div class="blog-table">
                 <table>
                     <thead>
                         <tr>
-                            <th>Icon</th>
-                            <th>Name</th>
-                            <th>Description</th>
+                            <th>Title</th>
+                            <th>Excerpt</th>
+                            <th>Author</th>
+                            <th>Date</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (empty($services)): ?>
+                        <?php if (empty($blogPosts)): ?>
                             <tr>
-                                <td colspan="5" class="text-center">No services found.</td>
+                                <td colspan="6" class="text-center">No blog posts found.</td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($services as $service): ?>
+                            <?php foreach ($blogPosts as $post): ?>
                                 <tr>
+                                    <td><?php echo htmlspecialchars($post['title']); ?></td>
+                                    <td><?php echo htmlspecialchars($post['excerpt']); ?></td>
+                                    <td><?php echo htmlspecialchars($post['author']); ?></td>
+                                    <td><?php echo date('M j, Y', strtotime($post['date'])); ?></td>
                                     <td>
-                                        <div class="service-icon">
-                                            <i class="fas <?php echo htmlspecialchars($service['image']); ?>"></i>
-                                        </div>
-                                    </td>
-                                    <td><?php echo htmlspecialchars($service['title']); ?></td>
-                                    <td><?php echo htmlspecialchars($service['description']); ?></td>
-                                    <td>
-                                        <span class="service-status status-<?php echo $service['is_active'] ? 'active' : 'inactive'; ?>">
-                                            <?php echo $service['is_active'] ? 'Active' : 'Inactive'; ?>
+                                        <span class="post-status status-<?php echo $post['status']; ?>">
+                                            <?php echo ucfirst($post['status']); ?>
                                         </span>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <a href="services.php?action=edit&id=<?php echo $service['id']; ?>" class="btn-edit">
+                                            <a href="../blog.php?post=<?php echo $post['id']; ?>" class="btn-view" target="_blank">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                            <a href="blog.php?action=edit&id=<?php echo $post['id']; ?>" class="btn-edit">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <a href="#" class="btn-delete" onclick="confirmDelete(<?php echo $service['id']; ?>, '<?php echo htmlspecialchars($service['title']); ?>')">
+                                            <a href="#" class="btn-delete" onclick="confirmDelete(<?php echo $post['id']; ?>, '<?php echo htmlspecialchars($post['title']); ?>')">
                                                 <i class="fas fa-trash"></i> Delete
                                             </a>
                                         </div>
@@ -565,64 +544,47 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
                 </table>
             </div>
         <?php else: ?>
-            <!-- Service Form -->
-            <div class="service-form">
-                <form method="POST" action="services.php" enctype="multipart/form-data">
+            <!-- Blog Post Form -->
+            <div class="blog-form">
+                <form method="POST" action="blog.php">
                     <input type="hidden" name="action" value="<?php echo $action; ?>">
                     <?php if ($action === 'edit'): ?>
-                        <input type="hidden" name="id" value="<?php echo $serviceData['id']; ?>">
+                        <input type="hidden" name="id" value="<?php echo $postId; ?>">
                     <?php endif; ?>
                     
                     <div class="form-group">
-                        <label for="title">Service Name</label>
-                        <input type="text" id="title" name="title" value="<?php echo $action === 'edit' ? htmlspecialchars($serviceData['title']) : ''; ?>" required>
+                        <label for="title">Post Title</label>
+                        <input type="text" id="title" name="title" value="<?php echo $action === 'edit' ? htmlspecialchars($blogPosts[0]['title']) : ''; ?>" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" required><?php echo $action === 'edit' ? htmlspecialchars($serviceData['description']) : ''; ?></textarea>
+                        <label for="excerpt">Excerpt</label>
+                        <textarea id="excerpt" name="excerpt" rows="2" required><?php echo $action === 'edit' ? htmlspecialchars($blogPosts[0]['excerpt']) : ''; ?></textarea>
+                        <small class="text-muted">A short summary of the post (max 160 characters)</small>
                     </div>
                     
                     <div class="form-group">
-                        <label for="icon">Icon (Font Awesome Class)</label>
-                        <input type="text" id="icon" name="image" value="<?php echo $action === 'edit' ? htmlspecialchars($serviceData['image']) : ''; ?>" required>
-                        <small class="text-muted">Example: fa-user-nurse, fa-heartbeat, etc.</small>
+                        <label for="content">Content</label>
+                        <textarea id="content" name="content" required><?php echo $action === 'edit' ? 'Sample content for this blog post. This would be replaced with actual content in a real application.' : ''; ?></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="service_image">Service Image</label>
-                        <input type="file" id="service_image" name="service_image" accept="image/*">
-                        <small class="text-muted">Upload an image for this service (JPG, PNG, GIF). Max size: 5MB.</small>
-                        <?php if ($action === 'edit' && !empty($serviceData['image_path'])): ?>
-                            <div class="mt-2">
-                                <p>Current image:</p>
-                                <img src="<?php echo htmlspecialchars($serviceData['image_path']); ?>" alt="Service image" style="max-width: 200px; max-height: 200px;">
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="price">Price (NPR)</label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo $action === 'edit' ? $serviceData['price'] : '0.00'; ?>" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="duration">Duration (minutes)</label>
-                        <input type="number" id="duration" name="duration" min="0" value="<?php echo $action === 'edit' ? $serviceData['duration'] : '60'; ?>" required>
+                        <label for="author">Author</label>
+                        <input type="text" id="author" name="author" value="<?php echo $action === 'edit' ? htmlspecialchars($blogPosts[0]['author']) : 'Dr. Admin'; ?>" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select id="status" name="status" required>
-                            <option value="active" <?php echo ($action === 'edit' && $serviceData['is_active']) ? 'selected' : ''; ?>>Active</option>
-                            <option value="inactive" <?php echo ($action === 'edit' && !$serviceData['is_active']) ? 'selected' : ''; ?>>Inactive</option>
+                            <option value="published" <?php echo ($action === 'edit' && $blogPosts[0]['status'] === 'published') ? 'selected' : ''; ?>>Published</option>
+                            <option value="draft" <?php echo ($action === 'edit' && $blogPosts[0]['status'] === 'draft') ? 'selected' : ''; ?>>Draft</option>
                         </select>
                     </div>
                     
                     <div class="form-actions">
-                        <a href="services.php" class="btn-cancel">Cancel</a>
+                        <a href="blog.php" class="btn-cancel">Cancel</a>
                         <button type="submit" class="btn-submit">
-                            <?php echo $action === 'add' ? 'Add Service' : 'Update Service'; ?>
+                            <?php echo $action === 'add' ? 'Add Post' : 'Update Post'; ?>
                         </button>
                     </div>
                 </form>
@@ -644,10 +606,10 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         });
         
         // Confirm delete
-        function confirmDelete(id, name) {
-            if (confirm(`Are you sure you want to delete the service "${name}"?`)) {
+        function confirmDelete(id, title) {
+            if (confirm(`Are you sure you want to delete the blog post "${title}"?`)) {
                 // In a real app, this would submit a form or make an AJAX request
-                window.location.href = `services.php?action=delete&id=${id}`;
+                window.location.href = `blog.php?action=delete&id=${id}`;
             }
         }
     </script>

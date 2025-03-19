@@ -1,74 +1,74 @@
 <?php
 session_start();
 require_once 'includes/auth.php';
-require_once 'includes/Service.php';
 require_admin();
 
-// Initialize Service class
-$serviceHandler = new Service();
+// Handle logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
 
-// Handle form submission
+// Placeholder for team functionality
 $message = '';
 $messageType = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (isset($_POST['action'])) {
-            if ($_POST['action'] === 'add') {
-                $serviceHandler->createService($_POST);
-                $message = 'Service added successfully!';
-                $messageType = 'success';
-                header('Location: services.php');
-                exit;
-            } elseif ($_POST['action'] === 'edit') {
-                $serviceHandler->updateService($_POST['id'], $_POST);
-                $message = 'Service updated successfully!';
-                $messageType = 'success';
-                header('Location: services.php');
-                exit;
-            }
-        }
-    } catch (Exception $e) {
-        $message = $e->getMessage();
-        $messageType = 'error';
-    }
-}
+// Sample team members for demonstration
+$teamMembers = [
+    [
+        'id' => 1,
+        'name' => 'Dr. John Smith',
+        'position' => 'General Physician',
+        'bio' => 'Dr. Smith has over 15 years of experience in general medicine and primary care.',
+        'image' => 'fa-user-md',
+        'is_active' => 1
+    ],
+    [
+        'id' => 2,
+        'name' => 'Dr. Sarah Johnson',
+        'position' => 'Pediatrician',
+        'bio' => 'Dr. Johnson specializes in pediatric care with a focus on early childhood development.',
+        'image' => 'fa-user-md',
+        'is_active' => 1
+    ],
+    [
+        'id' => 3,
+        'name' => 'Dr. Michael Patel',
+        'position' => 'Cardiologist',
+        'bio' => 'Dr. Patel is a board-certified cardiologist with expertise in heart disease prevention.',
+        'image' => 'fa-user-md',
+        'is_active' => 1
+    ]
+];
 
-// Handle delete action
-if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-    try {
-        $serviceHandler->deleteService($_GET['id']);
-        $message = 'Service deleted successfully!';
-        $messageType = 'success';
-    } catch (Exception $e) {
-        $message = $e->getMessage();
-        $messageType = 'error';
-    }
-}
-
-// Determine if we're adding, editing, or listing services
+// Determine if we're adding, editing, or listing team members
 $action = isset($_GET['action']) ? $_GET['action'] : 'list';
-$serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$memberId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Get service data
-if ($action === 'edit' && $serviceId > 0) {
-    $serviceData = $serviceHandler->getServiceById($serviceId);
-    if (!$serviceData) {
-        $message = 'Service not found!';
+// Get team member data for editing
+$memberData = [];
+if ($action === 'edit' && $memberId > 0) {
+    foreach ($teamMembers as $member) {
+        if ($member['id'] === $memberId) {
+            $memberData = $member;
+            break;
+        }
+    }
+    
+    if (empty($memberData)) {
+        $message = 'Team member not found!';
         $messageType = 'error';
         $action = 'list';
     }
 }
-
-// Get all services for listing
-$services = $action === 'list' ? $serviceHandler->getAllServices() : [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Services - Doctors At Door Step</title>
+    <title>Manage Team - Doctors At Door Step</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -235,8 +235,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             color: var(--error-color);
         }
         
-        /* Services Table */
-        .services-table {
+        /* Team Table */
+        .team-table {
             width: 100%;
             background-color: var(--white);
             border-radius: 10px;
@@ -244,42 +244,43 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             overflow: hidden;
         }
         
-        .services-table table {
+        .team-table table {
             width: 100%;
             border-collapse: collapse;
         }
         
-        .services-table th, .services-table td {
+        .team-table th, .team-table td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
         }
         
-        .services-table th {
+        .team-table th {
             background-color: var(--light-color);
             font-weight: 600;
         }
         
-        .services-table tr:last-child td {
+        .team-table tr:last-child td {
             border-bottom: none;
         }
         
-        .services-table tr:hover {
+        .team-table tr:hover {
             background-color: rgba(44, 123, 229, 0.05);
         }
         
-        .service-icon {
-            width: 40px;
-            height: 40px;
+        .member-avatar {
+            width: 50px;
+            height: 50px;
             background-color: rgba(44, 123, 229, 0.1);
             color: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 20px;
         }
         
-        .service-status {
+        .member-status {
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
@@ -331,8 +332,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             color: var(--white);
         }
         
-        /* Service Form */
-        .service-form {
+        /* Team Member Form */
+        .member-form {
             background-color: var(--white);
             border-radius: 10px;
             box-shadow: var(--box-shadow);
@@ -408,17 +409,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             font-size: 0.85rem;
             margin-top: 0.25rem;
         }
-
-        .form-group input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        .form-group input[type="number"]::-webkit-outer-spin-button,
-        .form-group input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
+        
         .text-center {
             text-align: center;
         }
@@ -441,7 +432,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
                 display: block;
             }
             
-            .services-table {
+            .team-table {
                 overflow-x: auto;
             }
         }
@@ -459,10 +450,10 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             <a href="dashboard.php" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
-            <a href="services.php" class="menu-item active">
+            <a href="services.php" class="menu-item">
                 <i class="fas fa-hand-holding-medical"></i> Services
             </a>
-            <a href="team.php" class="menu-item">
+            <a href="team.php" class="menu-item active">
                 <i class="fas fa-user-md"></i> Team Members
             </a>
             <a href="testimonials.php" class="menu-item">
@@ -494,17 +485,17 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         <div class="page-header">
             <h1 class="page-title">
                 <?php if ($action === 'add'): ?>
-                    Add New Service
+                    Add New Team Member
                 <?php elseif ($action === 'edit'): ?>
-                    Edit Service
+                    Edit Team Member
                 <?php else: ?>
-                    Manage Services
+                    Manage Team Members
                 <?php endif; ?>
             </h1>
             
             <?php if ($action === 'list'): ?>
-                <a href="services.php?action=add" class="add-new-btn">
-                    <i class="fas fa-plus"></i> Add New Service
+                <a href="team.php?action=add" class="add-new-btn">
+                    <i class="fas fa-plus"></i> Add New Member
                 </a>
             <?php endif; ?>
         </div>
@@ -516,44 +507,46 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         <?php endif; ?>
         
         <?php if ($action === 'list'): ?>
-            <!-- Services List -->
-            <div class="services-table">
+            <!-- Team Members List -->
+            <div class="team-table">
                 <table>
                     <thead>
                         <tr>
-                            <th>Icon</th>
+                            <th>Photo</th>
                             <th>Name</th>
-                            <th>Description</th>
+                            <th>Position</th>
+                            <th>Bio</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (empty($services)): ?>
+                        <?php if (empty($teamMembers)): ?>
                             <tr>
-                                <td colspan="5" class="text-center">No services found.</td>
+                                <td colspan="6" class="text-center">No team members found.</td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($services as $service): ?>
+                            <?php foreach ($teamMembers as $member): ?>
                                 <tr>
                                     <td>
-                                        <div class="service-icon">
-                                            <i class="fas <?php echo htmlspecialchars($service['image']); ?>"></i>
+                                        <div class="member-avatar">
+                                            <i class="fas <?php echo htmlspecialchars($member['image']); ?>"></i>
                                         </div>
                                     </td>
-                                    <td><?php echo htmlspecialchars($service['title']); ?></td>
-                                    <td><?php echo htmlspecialchars($service['description']); ?></td>
+                                    <td><?php echo htmlspecialchars($member['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($member['position']); ?></td>
+                                    <td><?php echo htmlspecialchars(substr($member['bio'], 0, 100)) . '...'; ?></td>
                                     <td>
-                                        <span class="service-status status-<?php echo $service['is_active'] ? 'active' : 'inactive'; ?>">
-                                            <?php echo $service['is_active'] ? 'Active' : 'Inactive'; ?>
+                                        <span class="member-status status-<?php echo $member['is_active'] ? 'active' : 'inactive'; ?>">
+                                            <?php echo $member['is_active'] ? 'Active' : 'Inactive'; ?>
                                         </span>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <a href="services.php?action=edit&id=<?php echo $service['id']; ?>" class="btn-edit">
+                                            <a href="team.php?action=edit&id=<?php echo $member['id']; ?>" class="btn-edit">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <a href="#" class="btn-delete" onclick="confirmDelete(<?php echo $service['id']; ?>, '<?php echo htmlspecialchars($service['title']); ?>')">
+                                            <a href="#" class="btn-delete" onclick="confirmDelete(<?php echo $member['id']; ?>, '<?php echo htmlspecialchars($member['name']); ?>')">
                                                 <i class="fas fa-trash"></i> Delete
                                             </a>
                                         </div>
@@ -565,64 +558,65 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
                 </table>
             </div>
         <?php else: ?>
-            <!-- Service Form -->
-            <div class="service-form">
-                <form method="POST" action="services.php" enctype="multipart/form-data">
+            <!-- Team Member Form -->
+            <div class="member-form">
+                <form method="POST" action="team.php" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="<?php echo $action; ?>">
                     <?php if ($action === 'edit'): ?>
-                        <input type="hidden" name="id" value="<?php echo $serviceData['id']; ?>">
+                        <input type="hidden" name="id" value="<?php echo $memberData['id']; ?>">
                     <?php endif; ?>
                     
                     <div class="form-group">
-                        <label for="title">Service Name</label>
-                        <input type="text" id="title" name="title" value="<?php echo $action === 'edit' ? htmlspecialchars($serviceData['title']) : ''; ?>" required>
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" value="<?php echo $action === 'edit' ? htmlspecialchars($memberData['name']) : ''; ?>" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" required><?php echo $action === 'edit' ? htmlspecialchars($serviceData['description']) : ''; ?></textarea>
+                        <label for="position">Position</label>
+                        <input type="text" id="position" name="position" value="<?php echo $action === 'edit' ? htmlspecialchars($memberData['position']) : ''; ?>" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="icon">Icon (Font Awesome Class)</label>
-                        <input type="text" id="icon" name="image" value="<?php echo $action === 'edit' ? htmlspecialchars($serviceData['image']) : ''; ?>" required>
-                        <small class="text-muted">Example: fa-user-nurse, fa-heartbeat, etc.</small>
+                        <label for="bio">Biography</label>
+                        <textarea id="bio" name="bio" required><?php echo $action === 'edit' ? htmlspecialchars($memberData['bio']) : ''; ?></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="service_image">Service Image</label>
-                        <input type="file" id="service_image" name="service_image" accept="image/*">
-                        <small class="text-muted">Upload an image for this service (JPG, PNG, GIF). Max size: 5MB.</small>
-                        <?php if ($action === 'edit' && !empty($serviceData['image_path'])): ?>
+                        <label for="member_photo">Photo</label>
+                        <input type="file" id="member_photo" name="member_photo" accept="image/*">
+                        <small class="text-muted">Upload a photo (JPG, PNG, GIF). Max size: 5MB.</small>
+                        <?php if ($action === 'edit' && !empty($memberData['photo_path'])): ?>
                             <div class="mt-2">
-                                <p>Current image:</p>
-                                <img src="<?php echo htmlspecialchars($serviceData['image_path']); ?>" alt="Service image" style="max-width: 200px; max-height: 200px;">
+                                <p>Current photo:</p>
+                                <img src="<?php echo htmlspecialchars($memberData['photo_path']); ?>" alt="Member photo" style="max-width: 100px; max-height: 100px;">
                             </div>
                         <?php endif; ?>
                     </div>
                     
                     <div class="form-group">
-                        <label for="price">Price (NPR)</label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo $action === 'edit' ? $serviceData['price'] : '0.00'; ?>" required>
+                        <label for="specialties">Specialties</label>
+                        <input type="text" id="specialties" name="specialties" value="<?php echo $action === 'edit' && isset($memberData['specialties']) ? htmlspecialchars($memberData['specialties']) : ''; ?>">
+                        <small class="text-muted">Comma-separated list of specialties (e.g., Cardiology, Pediatrics)</small>
                     </div>
                     
                     <div class="form-group">
-                        <label for="duration">Duration (minutes)</label>
-                        <input type="number" id="duration" name="duration" min="0" value="<?php echo $action === 'edit' ? $serviceData['duration'] : '60'; ?>" required>
+                        <label for="qualifications">Qualifications</label>
+                        <input type="text" id="qualifications" name="qualifications" value="<?php echo $action === 'edit' && isset($memberData['qualifications']) ? htmlspecialchars($memberData['qualifications']) : ''; ?>">
+                        <small class="text-muted">Degrees and certifications (e.g., MD, MBBS, PhD)</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select id="status" name="status" required>
-                            <option value="active" <?php echo ($action === 'edit' && $serviceData['is_active']) ? 'selected' : ''; ?>>Active</option>
-                            <option value="inactive" <?php echo ($action === 'edit' && !$serviceData['is_active']) ? 'selected' : ''; ?>>Inactive</option>
+                            <option value="active" <?php echo ($action === 'edit' && $memberData['is_active']) ? 'selected' : ''; ?>>Active</option>
+                            <option value="inactive" <?php echo ($action === 'edit' && !$memberData['is_active']) ? 'selected' : ''; ?>>Inactive</option>
                         </select>
                     </div>
                     
                     <div class="form-actions">
-                        <a href="services.php" class="btn-cancel">Cancel</a>
+                        <a href="team.php" class="btn-cancel">Cancel</a>
                         <button type="submit" class="btn-submit">
-                            <?php echo $action === 'add' ? 'Add Service' : 'Update Service'; ?>
+                            <?php echo $action === 'add' ? 'Add Member' : 'Update Member'; ?>
                         </button>
                     </div>
                 </form>
@@ -645,9 +639,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         
         // Confirm delete
         function confirmDelete(id, name) {
-            if (confirm(`Are you sure you want to delete the service "${name}"?`)) {
-                // In a real app, this would submit a form or make an AJAX request
-                window.location.href = `services.php?action=delete&id=${id}`;
+            if (confirm(`Are you sure you want to delete the team member "${name}"?`)) {
+                window.location.href = `team.php?action=delete&id=${id}`;
             }
         }
     </script>

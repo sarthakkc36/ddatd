@@ -1,0 +1,120 @@
+/* Service Details Page Styles */
+.price-details {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: var(--light-color);
+    border-radius: 5px;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.price-item:last-child {
+    border-bottom: none;
+}
+
+.price-item .label {
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.price-item .value {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.pricing-note {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    margin-top: 15px;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.service-details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.service-main-content {
+    padding-right: 30px;
+}
+
+.service-features,
+.service-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.service-features li,
+.service-benefits li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.service-features i,
+.service-benefits i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+.service-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.pricing-box,
+.contact-box {
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.contact-box {
+    text-align: center;
+}
+
+.phone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: rgba(44, 123, 229, 0.1);
+    transition: all 0.3s;
+}
+
+.phone-link:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+@media (max-width: 768px) {
+    .service-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-main-content {
+        padding-right: 0;
+    }
+
+    .service-sidebar {
+        position: static;
+    }
+}

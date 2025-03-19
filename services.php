@@ -1,4 +1,10 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+require_once 'includes/Services.php';
+include 'includes/header.php';
+
+$servicesHandler = new Services();
+$services = $servicesHandler->getAllActiveServices();
+?>
 
 <!-- Hero Banner -->
 <section class="page-hero services-hero" data-aos="fade-up">
@@ -11,115 +17,34 @@
 <!-- Services Grid -->
 <section class="services-grid-section" data-aos="fade-up">
     <div class="container">
-        <!-- Service 1 -->
-        <div class="service-item" id="home-nursing" data-aos="fade-up">
-            <div class="service-image">
-                <img src="images/home-nursing.jpg" alt="Home Nursing Care" loading="lazy">
+        <?php if (empty($services)): ?>
+            <div class="no-services">
+                <p>No services are currently available. Please check back later.</p>
             </div>
-            <div class="service-details">
-                <div class="service-icon">
-                    <i class="fas fa-user-nurse"></i>
+        <?php else: ?>
+            <?php foreach ($services as $service): ?>
+                <div class="service-item" id="service-<?php echo $service['id']; ?>" data-aos="fade-up">
+                    <div class="service-image">
+                        <img src="images/services/<?php echo htmlspecialchars($service['image']); ?>.jpg" 
+                             alt="<?php echo htmlspecialchars($service['title']); ?>" 
+                             loading="lazy"
+                             onerror="this.src='images/placeholder-service.jpg'">
+                    </div>
+                    <div class="service-details">
+                        <div class="service-icon">
+                            <i class="fas <?php echo htmlspecialchars($service['image']); ?>"></i>
+                        </div>
+                        <h2><?php echo htmlspecialchars($service['title']); ?></h2>
+                        <p><?php echo htmlspecialchars($service['description']); ?></p>
+                        <div class="service-meta">
+                            <p class="service-price"><?php echo $servicesHandler->formatPrice($service['price']); ?></p>
+                            <p class="service-duration"><?php echo $servicesHandler->formatDuration($service['duration']); ?></p>
+                        </div>
+                        <a href="service-details.php?id=<?php echo $service['id']; ?>" class="btn btn-primary">Learn More</a>
+                    </div>
                 </div>
-                <h2>Home Medical Care</h2>
-                <p>Professional medical care delivered by qualified doctors in the comfort of your home. Our doctors provide:</p>
-                <ul>
-                    <li>Medication management and administration</li>
-                    <li>Wound care and dressing changes</li>
-                    <li>Vital signs monitoring</li>
-                    <li>Post-surgery care</li>
-                    <li>Chronic disease management</li>
-                </ul>
-                <a href="service-details.php?service=home-nursing" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-
-        <!-- Service 2 -->
-        <div class="service-item" id="elderly-assistance" data-aos="fade-up">
-            <div class="service-image">
-                <img src="images/elderly-assistance.jpg" alt="Elderly Assistance" loading="lazy">
-            </div>
-            <div class="service-details">
-                <div class="service-icon">
-                    <i class="fas fa-hand-holding-heart"></i>
-                </div>
-                <h2>Elderly Assistance</h2>
-                <p>Compassionate care and support for seniors, including:</p>
-                <ul>
-                    <li>Personal care and hygiene assistance</li>
-                    <li>Mobility support and fall prevention</li>
-                    <li>Medication reminders</li>
-                    <li>Companionship and emotional support</li>
-                    <li>Light housekeeping and meal preparation</li>
-                </ul>
-                <a href="service-details.php?service=elderly-assistance" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-
-        <!-- Service 3 -->
-        <div class="service-item" id="physical-therapy" data-aos="fade-up">
-            <div class="service-image">
-                <img src="images/physical-therapy.jpg" alt="Physical Therapy" loading="lazy">
-            </div>
-            <div class="service-details">
-                <div class="service-icon">
-                    <i class="fas fa-walking"></i>
-                </div>
-                <h2>Physical Therapy</h2>
-                <p>Professional rehabilitation services to improve mobility and strength:</p>
-                <ul>
-                    <li>Post-surgery rehabilitation</li>
-                    <li>Exercise program development</li>
-                    <li>Balance and coordination training</li>
-                    <li>Pain management techniques</li>
-                    <li>Mobility equipment training</li>
-                </ul>
-                <a href="service-details.php?service=physical-therapy" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-
-        <!-- Service 4 -->
-        <div class="service-item" id="medical-support" data-aos="fade-up">
-            <div class="service-image">
-                <img src="images/medical-support.jpg" alt="24/7 Medical Support" loading="lazy">
-            </div>
-            <div class="service-details">
-                <div class="service-icon">
-                    <i class="fas fa-phone-alt"></i>
-                </div>
-                <h2>24/7 Doctor Support</h2>
-                <p>Round-the-clock doctor assistance and monitoring:</p>
-                <ul>
-                    <li>Emergency response services</li>
-                    <li>Continuous health monitoring</li>
-                    <li>Telehealth consultations</li>
-                    <li>Medical equipment support</li>
-                    <li>Care coordination with physicians</li>
-                </ul>
-                <a href="service-details.php?service=medical-support" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-
-        <!-- Service 5 -->
-        <div class="service-item" id="companionship" data-aos="fade-up">
-            <div class="service-image">
-                <img src="images/companionship.jpg" alt="Companionship Care" loading="lazy">
-            </div>
-            <div class="service-details">
-                <div class="service-icon">
-                    <i class="fas fa-hands-helping"></i>
-                </div>
-                <h2>Companionship Care</h2>
-                <p>Dedicated companionship and social support services:</p>
-                <ul>
-                    <li>Social interaction and conversation</li>
-                    <li>Recreational activities and hobbies</li>
-                    <li>Appointment accompaniment</li>
-                    <li>Shopping and errands assistance</li>
-                    <li>Mental stimulation activities</li>
-                </ul>
-                <a href="service-details.php?service=companionship" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 </section>
 

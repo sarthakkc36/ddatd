@@ -1,12 +1,7 @@
 <?php
 session_start();
-include '../includes/config.php';
-
-// Check if user is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: index.php');
-    exit;
-}
+require_once 'includes/auth.php';
+require_admin();
 
 // Handle logout
 if (isset($_GET['logout'])) {
@@ -15,15 +10,9 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
-// Get website statistics (placeholder data)
-$stats = [
-    'total_services' => 5,
-    'total_team_members' => 3,
-    'total_testimonials' => 2,
-    'total_blog_posts' => 3,
-    'total_inquiries' => 12,
-    'total_bookings' => 8
-];
+// Get real statistics from database
+$stats = get_dashboard_stats();
+$recent_activity = get_recent_activity(5);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -506,49 +495,48 @@ $stats = [
         <div class="recent-activity">
             <h2 class="section-title">Recent Activity</h2>
             <ul class="activity-list">
+                <?php if (empty($recent_activity)): ?>
                 <li class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
                     <div class="activity-content">
-                        <h4>New Booking</h4>
-                        <p>Raj Thapa booked a Home Medical Care service</p>
+                        <p>No recent activity</p>
                     </div>
-                    <span class="activity-time">2 hours ago</span>
                 </li>
-                
-                <li class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h4>New Inquiry</h4>
-                        <p>Priya Sharma sent an inquiry about Elderly Assistance</p>
-                    </div>
-                    <span class="activity-time">5 hours ago</span>
-                </li>
-                
-                <li class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-user-md"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h4>Team Member Updated</h4>
-                        <p>Dr. Anish Sharma's profile was updated</p>
-                    </div>
-                    <span class="activity-time">Yesterday</span>
-                </li>
-                
-                <li class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-blog"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h4>New Blog Post</h4>
-                        <p>"Mental Health Care for Seniors" was published</p>
-                    </div>
-                    <span class="activity-time">2 days ago</span>
-                </li>
+                <?php else: ?>
+                    <?php foreach ($recent_activity as $activity): ?>
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <?php if ($activity['type'] === 'booking'): ?>
+                                    <i class="fas fa-calendar-check"></i>
+                                <?php else: ?>
+                                    <i class="fas fa-envelope"></i>
+                                <?php endif; ?>
+                            </div>
+                            <div class="activity-content">
+                                <h4>
+                                    <?php if ($activity['type'] === 'booking'): ?>
+                                        New Booking
+                                    <?php else: ?>
+                                        New Inquiry
+                                    <?php endif; ?>
+                                </h4>
+                                <p>
+                                    <?php if ($activity['type'] === 'booking'): ?>
+                                        <?php echo htmlspecialchars($activity['data']['client_name']); ?> booked 
+                                        <?php echo htmlspecialchars($activity['data']['service_name']); ?>
+                                    <?php else: ?>
+                                        <?php echo htmlspecialchars($activity['data']['name']); ?> sent an inquiry: 
+                                        <?php echo htmlspecialchars(substr($activity['data']['subject'], 0, 50)); ?>...
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                            <span class="activity-time">
+                                <?php echo time_elapsed_string($activity['type'] === 'booking' ? 
+                                    $activity['data']['created_at'] : 
+                                    $activity['data']['created_at']); ?>
+                            </span>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </ul>
         </div>
     </div>

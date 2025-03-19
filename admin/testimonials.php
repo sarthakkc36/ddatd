@@ -1,74 +1,74 @@
 <?php
 session_start();
 require_once 'includes/auth.php';
-require_once 'includes/Service.php';
 require_admin();
 
-// Initialize Service class
-$serviceHandler = new Service();
+// Handle logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
 
-// Handle form submission
+// Placeholder for testimonials functionality
 $message = '';
 $messageType = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (isset($_POST['action'])) {
-            if ($_POST['action'] === 'add') {
-                $serviceHandler->createService($_POST);
-                $message = 'Service added successfully!';
-                $messageType = 'success';
-                header('Location: services.php');
-                exit;
-            } elseif ($_POST['action'] === 'edit') {
-                $serviceHandler->updateService($_POST['id'], $_POST);
-                $message = 'Service updated successfully!';
-                $messageType = 'success';
-                header('Location: services.php');
-                exit;
-            }
-        }
-    } catch (Exception $e) {
-        $message = $e->getMessage();
-        $messageType = 'error';
-    }
-}
+// Sample testimonials for demonstration
+$testimonials = [
+    [
+        'id' => 1,
+        'name' => 'Rajesh Sharma',
+        'position' => 'Patient',
+        'content' => 'The home visit service was excellent. The doctor was professional, thorough, and made me feel comfortable. I highly recommend Doctors At Door Step.',
+        'rating' => 5,
+        'is_active' => 1
+    ],
+    [
+        'id' => 2,
+        'name' => 'Priya Patel',
+        'position' => 'Mother of two',
+        'content' => 'As a busy mom, having a doctor come to our home was incredibly convenient. The pediatrician was great with my children and provided excellent care.',
+        'rating' => 5,
+        'is_active' => 1
+    ],
+    [
+        'id' => 3,
+        'name' => 'Anil Kumar',
+        'position' => 'Elderly patient',
+        'content' => 'At my age, going to the hospital is difficult. This service has been a blessing. The doctors are knowledgeable and caring.',
+        'rating' => 4,
+        'is_active' => 1
+    ]
+];
 
-// Handle delete action
-if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-    try {
-        $serviceHandler->deleteService($_GET['id']);
-        $message = 'Service deleted successfully!';
-        $messageType = 'success';
-    } catch (Exception $e) {
-        $message = $e->getMessage();
-        $messageType = 'error';
-    }
-}
-
-// Determine if we're adding, editing, or listing services
+// Determine if we're adding, editing, or listing testimonials
 $action = isset($_GET['action']) ? $_GET['action'] : 'list';
-$serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$testimonialId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Get service data
-if ($action === 'edit' && $serviceId > 0) {
-    $serviceData = $serviceHandler->getServiceById($serviceId);
-    if (!$serviceData) {
-        $message = 'Service not found!';
+// Get testimonial data for editing
+$testimonialData = [];
+if ($action === 'edit' && $testimonialId > 0) {
+    foreach ($testimonials as $testimonial) {
+        if ($testimonial['id'] === $testimonialId) {
+            $testimonialData = $testimonial;
+            break;
+        }
+    }
+    
+    if (empty($testimonialData)) {
+        $message = 'Testimonial not found!';
         $messageType = 'error';
         $action = 'list';
     }
 }
-
-// Get all services for listing
-$services = $action === 'list' ? $serviceHandler->getAllServices() : [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Services - Doctors At Door Step</title>
+    <title>Manage Testimonials - Doctors At Door Step</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -235,8 +235,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             color: var(--error-color);
         }
         
-        /* Services Table */
-        .services-table {
+        /* Testimonials Table */
+        .testimonials-table {
             width: 100%;
             background-color: var(--white);
             border-radius: 10px;
@@ -244,42 +244,43 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             overflow: hidden;
         }
         
-        .services-table table {
+        .testimonials-table table {
             width: 100%;
             border-collapse: collapse;
         }
         
-        .services-table th, .services-table td {
+        .testimonials-table th, .testimonials-table td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
         }
         
-        .services-table th {
+        .testimonials-table th {
             background-color: var(--light-color);
             font-weight: 600;
         }
         
-        .services-table tr:last-child td {
+        .testimonials-table tr:last-child td {
             border-bottom: none;
         }
         
-        .services-table tr:hover {
+        .testimonials-table tr:hover {
             background-color: rgba(44, 123, 229, 0.05);
         }
         
-        .service-icon {
-            width: 40px;
-            height: 40px;
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
             background-color: rgba(44, 123, 229, 0.1);
             color: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 20px;
         }
         
-        .service-status {
+        .testimonial-status {
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
@@ -294,6 +295,10 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         .status-inactive {
             background-color: rgba(239, 68, 68, 0.1);
             color: var(--error-color);
+        }
+        
+        .rating {
+            color: #FFD700;
         }
         
         .action-buttons {
@@ -331,8 +336,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             color: var(--white);
         }
         
-        /* Service Form */
-        .service-form {
+        /* Testimonial Form */
+        .testimonial-form {
             background-color: var(--white);
             border-radius: 10px;
             box-shadow: var(--box-shadow);
@@ -360,6 +365,27 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         .form-group textarea {
             min-height: 100px;
             resize: vertical;
+        }
+        
+        .rating-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .rating-input label {
+            cursor: pointer;
+            font-size: 24px;
+            color: #ccc;
+        }
+        
+        .rating-input input[type="radio"] {
+            display: none;
+        }
+        
+        .rating-input label:hover,
+        .rating-input label:hover ~ label,
+        .rating-input input[type="radio"]:checked ~ label {
+            color: #FFD700;
         }
         
         .form-actions {
@@ -408,17 +434,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             font-size: 0.85rem;
             margin-top: 0.25rem;
         }
-
-        .form-group input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        .form-group input[type="number"]::-webkit-outer-spin-button,
-        .form-group input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
+        
         .text-center {
             text-align: center;
         }
@@ -441,7 +457,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
                 display: block;
             }
             
-            .services-table {
+            .testimonials-table {
                 overflow-x: auto;
             }
         }
@@ -459,13 +475,13 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             <a href="dashboard.php" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
-            <a href="services.php" class="menu-item active">
+            <a href="services.php" class="menu-item">
                 <i class="fas fa-hand-holding-medical"></i> Services
             </a>
             <a href="team.php" class="menu-item">
                 <i class="fas fa-user-md"></i> Team Members
             </a>
-            <a href="testimonials.php" class="menu-item">
+            <a href="testimonials.php" class="menu-item active">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
             <a href="blog.php" class="menu-item">
@@ -494,17 +510,17 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         <div class="page-header">
             <h1 class="page-title">
                 <?php if ($action === 'add'): ?>
-                    Add New Service
+                    Add New Testimonial
                 <?php elseif ($action === 'edit'): ?>
-                    Edit Service
+                    Edit Testimonial
                 <?php else: ?>
-                    Manage Services
+                    Manage Testimonials
                 <?php endif; ?>
             </h1>
             
             <?php if ($action === 'list'): ?>
-                <a href="services.php?action=add" class="add-new-btn">
-                    <i class="fas fa-plus"></i> Add New Service
+                <a href="testimonials.php?action=add" class="add-new-btn">
+                    <i class="fas fa-plus"></i> Add New Testimonial
                 </a>
             <?php endif; ?>
         </div>
@@ -516,44 +532,53 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         <?php endif; ?>
         
         <?php if ($action === 'list'): ?>
-            <!-- Services List -->
-            <div class="services-table">
+            <!-- Testimonials List -->
+            <div class="testimonials-table">
                 <table>
                     <thead>
                         <tr>
-                            <th>Icon</th>
-                            <th>Name</th>
-                            <th>Description</th>
+                            <th>Client</th>
+                            <th>Position</th>
+                            <th>Testimonial</th>
+                            <th>Rating</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (empty($services)): ?>
+                        <?php if (empty($testimonials)): ?>
                             <tr>
-                                <td colspan="5" class="text-center">No services found.</td>
+                                <td colspan="6" class="text-center">No testimonials found.</td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($services as $service): ?>
+                            <?php foreach ($testimonials as $testimonial): ?>
                                 <tr>
                                     <td>
-                                        <div class="service-icon">
-                                            <i class="fas <?php echo htmlspecialchars($service['image']); ?>"></i>
+                                        <div class="testimonial-avatar">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <?php echo htmlspecialchars($testimonial['name']); ?>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($testimonial['position']); ?></td>
+                                    <td><?php echo htmlspecialchars(substr($testimonial['content'], 0, 100)) . '...'; ?></td>
+                                    <td>
+                                        <div class="rating">
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <i class="fas fa-star<?php echo $i <= $testimonial['rating'] ? '' : '-o'; ?>"></i>
+                                            <?php endfor; ?>
                                         </div>
                                     </td>
-                                    <td><?php echo htmlspecialchars($service['title']); ?></td>
-                                    <td><?php echo htmlspecialchars($service['description']); ?></td>
                                     <td>
-                                        <span class="service-status status-<?php echo $service['is_active'] ? 'active' : 'inactive'; ?>">
-                                            <?php echo $service['is_active'] ? 'Active' : 'Inactive'; ?>
+                                        <span class="testimonial-status status-<?php echo $testimonial['is_active'] ? 'active' : 'inactive'; ?>">
+                                            <?php echo $testimonial['is_active'] ? 'Active' : 'Inactive'; ?>
                                         </span>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <a href="services.php?action=edit&id=<?php echo $service['id']; ?>" class="btn-edit">
+                                            <a href="testimonials.php?action=edit&id=<?php echo $testimonial['id']; ?>" class="btn-edit">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <a href="#" class="btn-delete" onclick="confirmDelete(<?php echo $service['id']; ?>, '<?php echo htmlspecialchars($service['title']); ?>')">
+                                            <a href="#" class="btn-delete" onclick="confirmDelete(<?php echo $testimonial['id']; ?>, '<?php echo htmlspecialchars($testimonial['name']); ?>')">
                                                 <i class="fas fa-trash"></i> Delete
                                             </a>
                                         </div>
@@ -565,64 +590,64 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
                 </table>
             </div>
         <?php else: ?>
-            <!-- Service Form -->
-            <div class="service-form">
-                <form method="POST" action="services.php" enctype="multipart/form-data">
+            <!-- Testimonial Form -->
+            <div class="testimonial-form">
+                <form method="POST" action="testimonials.php" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="<?php echo $action; ?>">
                     <?php if ($action === 'edit'): ?>
-                        <input type="hidden" name="id" value="<?php echo $serviceData['id']; ?>">
+                        <input type="hidden" name="id" value="<?php echo $testimonialData['id']; ?>">
                     <?php endif; ?>
                     
                     <div class="form-group">
-                        <label for="title">Service Name</label>
-                        <input type="text" id="title" name="title" value="<?php echo $action === 'edit' ? htmlspecialchars($serviceData['title']) : ''; ?>" required>
+                        <label for="name">Client Name</label>
+                        <input type="text" id="name" name="name" value="<?php echo $action === 'edit' ? htmlspecialchars($testimonialData['name']) : ''; ?>" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" required><?php echo $action === 'edit' ? htmlspecialchars($serviceData['description']) : ''; ?></textarea>
+                        <label for="position">Position/Title</label>
+                        <input type="text" id="position" name="position" value="<?php echo $action === 'edit' ? htmlspecialchars($testimonialData['position']) : ''; ?>" required>
+                        <small class="text-muted">E.g., Patient, Mother of two, Business Owner</small>
                     </div>
                     
                     <div class="form-group">
-                        <label for="icon">Icon (Font Awesome Class)</label>
-                        <input type="text" id="icon" name="image" value="<?php echo $action === 'edit' ? htmlspecialchars($serviceData['image']) : ''; ?>" required>
-                        <small class="text-muted">Example: fa-user-nurse, fa-heartbeat, etc.</small>
+                        <label for="content">Testimonial Content</label>
+                        <textarea id="content" name="content" required><?php echo $action === 'edit' ? htmlspecialchars($testimonialData['content']) : ''; ?></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="service_image">Service Image</label>
-                        <input type="file" id="service_image" name="service_image" accept="image/*">
-                        <small class="text-muted">Upload an image for this service (JPG, PNG, GIF). Max size: 5MB.</small>
-                        <?php if ($action === 'edit' && !empty($serviceData['image_path'])): ?>
+                        <label for="client_photo">Client Photo</label>
+                        <input type="file" id="client_photo" name="client_photo" accept="image/*">
+                        <small class="text-muted">Upload a photo (JPG, PNG, GIF). Max size: 5MB.</small>
+                        <?php if ($action === 'edit' && !empty($testimonialData['photo_path'])): ?>
                             <div class="mt-2">
-                                <p>Current image:</p>
-                                <img src="<?php echo htmlspecialchars($serviceData['image_path']); ?>" alt="Service image" style="max-width: 200px; max-height: 200px;">
+                                <p>Current photo:</p>
+                                <img src="<?php echo htmlspecialchars($testimonialData['photo_path']); ?>" alt="Client photo" style="max-width: 100px; max-height: 100px;">
                             </div>
                         <?php endif; ?>
                     </div>
                     
                     <div class="form-group">
-                        <label for="price">Price (NPR)</label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo $action === 'edit' ? $serviceData['price'] : '0.00'; ?>" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="duration">Duration (minutes)</label>
-                        <input type="number" id="duration" name="duration" min="0" value="<?php echo $action === 'edit' ? $serviceData['duration'] : '60'; ?>" required>
+                        <label>Rating</label>
+                        <div class="rating-input">
+                            <?php for ($i = 5; $i >= 1; $i--): ?>
+                                <input type="radio" name="rating" id="star<?php echo $i; ?>" value="<?php echo $i; ?>" <?php echo ($action === 'edit' && $testimonialData['rating'] == $i) ? 'checked' : ''; ?> <?php echo ($action === 'add' && $i === 5) ? 'checked' : ''; ?>>
+                                <label for="star<?php echo $i; ?>"><i class="fas fa-star"></i></label>
+                            <?php endfor; ?>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select id="status" name="status" required>
-                            <option value="active" <?php echo ($action === 'edit' && $serviceData['is_active']) ? 'selected' : ''; ?>>Active</option>
-                            <option value="inactive" <?php echo ($action === 'edit' && !$serviceData['is_active']) ? 'selected' : ''; ?>>Inactive</option>
+                            <option value="active" <?php echo ($action === 'edit' && $testimonialData['is_active']) ? 'selected' : ''; ?>>Active</option>
+                            <option value="inactive" <?php echo ($action === 'edit' && !$testimonialData['is_active']) ? 'selected' : ''; ?>>Inactive</option>
                         </select>
                     </div>
                     
                     <div class="form-actions">
-                        <a href="services.php" class="btn-cancel">Cancel</a>
+                        <a href="testimonials.php" class="btn-cancel">Cancel</a>
                         <button type="submit" class="btn-submit">
-                            <?php echo $action === 'add' ? 'Add Service' : 'Update Service'; ?>
+                            <?php echo $action === 'add' ? 'Add Testimonial' : 'Update Testimonial'; ?>
                         </button>
                     </div>
                 </form>
@@ -645,9 +670,8 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
         
         // Confirm delete
         function confirmDelete(id, name) {
-            if (confirm(`Are you sure you want to delete the service "${name}"?`)) {
-                // In a real app, this would submit a form or make an AJAX request
-                window.location.href = `services.php?action=delete&id=${id}`;
+            if (confirm(`Are you sure you want to delete the testimonial from "${name}"?`)) {
+                window.location.href = `testimonials.php?action=delete&id=${id}`;
             }
         }
     </script>

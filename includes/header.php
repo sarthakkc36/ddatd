@@ -1,14 +1,29 @@
+<?php
+if (!defined('ALLOWED_ACCESS')) {
+    define('ALLOWED_ACCESS', true);
+}
+require_once __DIR__ . '/config.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctors At Door Step - Professional Healthcare Services</title>
+    <title>HomeCare - Professional Healthcare Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/styles.css">
-        <link rel="stylesheet" href="css/placeholder-images.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/placeholder-images.css">
+    <?php
+    // Get the current page filename
+    $current_page = basename($_SERVER['PHP_SELF']);
+    
+    // Include additional CSS files based on current page
+    if ($current_page === 'service-details.php') {
+        echo '<link rel="stylesheet" href="css/service-details.css">';
+    }
+    ?>
 </head>
 <body>
     <!-- Sticky Header -->
@@ -16,7 +31,7 @@
         <div class="container">
             <nav class="nav">
                 <a href="index.php" class="logo">
-                    <h1>Doctors At Door Step</h1>
+                    <h1>HomeCare</h1>
                 </a>
                 
                 <div class="nav-toggle" id="navToggle">
@@ -38,4 +53,58 @@
             </nav>
         </div>
     </header>
-    <main>
+    <style>
+/* These are alignment fixes that work with your existing styles */
+.header {
+    width: 100%;
+    padding: 0 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Mobile nav adjustments */
+@media (max-width: 991px) {
+    .nav-menu {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: var(--white, #FFFFFF);
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .nav-toggle {
+        display: flex;
+    }
+}
+</style>

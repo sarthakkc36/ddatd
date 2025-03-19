@@ -1,4 +1,12 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+define('ALLOWED_ACCESS', true);
+include 'includes/header.php';
+
+// Get services for display
+require_once 'includes/Services.php';
+$servicesHandler = new Services();
+$featuredServices = array_slice($servicesHandler->getAllActiveServices(), 0, 3);
+?>
 
 <!-- Hero Section -->
 <section class="hero" data-aos="fade">
