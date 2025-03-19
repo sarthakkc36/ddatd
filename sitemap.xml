@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Homepage -->
+    <url>
+        <loc>https://www.yourdomain.com/homecare/</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Main Pages -->
+    <url>
+        <loc>https://www.yourdomain.com/homecare/about.php</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/services.php</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/pricing.php</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Individual Service Pages -->
+    <url>
+        <loc>https://www.yourdomain.com/homecare/service-details.php?service=home-nursing</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/service-details.php?service=elderly-assistance</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/service-details.php?service=physical-therapy</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/service-details.php?service=medical-support</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/service-details.php?service=companionship</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Contact & Booking Pages -->
+    <url>
+        <loc>https://www.yourdomain.com/homecare/contact.php</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/booking.php</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Supporting Pages -->
+    <url>
+        <loc>https://www.yourdomain.com/homecare/terms.php</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <url>
+        <loc>https://www.yourdomain.com/homecare/privacy.php</loc>
+        <lastmod>2025-03-19</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+</urlset>

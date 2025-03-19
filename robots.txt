@@ -1,0 +1,62 @@
+# HomeCare Website Robots.txt
+# Version 1.0
+
+# Allow all crawlers
+User-agent: *
+
+# Disallow access to system files and folders
+Disallow: /includes/
+Disallow: /logs/
+Disallow: /.htaccess
+Disallow: /process_*.php
+Disallow: /*.json$
+Disallow: /*.lock$
+Disallow: /*.config$
+Disallow: /*.env$
+Disallow: /css/*.map$
+Disallow: /js/*.map$
+
+# Allow access to main pages
+Allow: /index.php
+Allow: /about.php
+Allow: /services.php
+Allow: /pricing.php
+Allow: /contact.php
+Allow: /booking.php
+Allow: /service-details.php
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# Crawl-delay for heavy bots
+Crawl-delay: 10
+
+# Sitemaps
+Sitemap: https://www.yourdomain.com/homecare/sitemap.xml
+
+# Additional rules for specific bots
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+# Block known bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+# Clean Parameters
+Disallow: /*?*fbclid=
+Disallow: /*?*utm_source=
+Disallow: /*?*utm_medium=
+Disallow: /*?*utm_campaign=
+Disallow: /*?*utm_term=
+Disallow: /*?*utm_content=
+
+# Note: Replace yourdomain.com with actual domain name in production
