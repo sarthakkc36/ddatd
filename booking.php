@@ -3,8 +3,8 @@
 <!-- Hero Banner -->
 <section class="page-hero booking-hero" data-aos="fade-up">
     <div class="container">
-        <h1>Schedule Your Care Service</h1>
-        <p>Book a consultation or care service with our healthcare professionals</p>
+        <h1>Schedule Your Doctor Visit</h1>
+        <p>Book a consultation or medical service with our qualified doctors at your doorstep</p>
     </div>
 </section>
 
@@ -46,10 +46,10 @@
                             <label for="service">Select Service *</label>
                             <select id="service" name="service" required>
                                 <option value="">Choose a service...</option>
-                                <option value="home-nursing">Home Nursing Care</option>
+                                <option value="home-nursing">Home Medical Care</option>
                                 <option value="elderly-assistance">Elderly Assistance</option>
                                 <option value="physical-therapy">Physical Therapy</option>
-                                <option value="medical-support">24/7 Medical Support</option>
+                                <option value="medical-support">24/7 Doctor Support</option>
                                 <option value="companionship">Companionship Care</option>
                             </select>
                         </div>
@@ -167,10 +167,10 @@
 
                     <div class="info-section">
                         <h3>Need Help?</h3>
-                        <p>Contact our care coordinators for assistance:</p>
-                        <a href="tel:+15551234567" class="contact-phone">
+                        <p>Contact our medical coordinators for assistance:</p>
+                        <a href="tel:+97701456789" class="contact-phone">
                             <i class="fas fa-phone"></i>
-                            (555) 123-4567
+                            +977 (01) 456-7890
                         </a>
                         <p class="availability">Available Monday - Friday, 9:00 AM - 6:00 PM</p>
                     </div>

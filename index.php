@@ -3,44 +3,11 @@
 <!-- Hero Section -->
 <section class="hero" data-aos="fade">
     <div class="hero-content">
-        <h1>Professional Healthcare at Your Doorstep</h1>
-        <p>Compassionate care delivered by experienced professionals in the comfort of your home.</p>
+        <h1>Doctors At Your Doorstep</h1>
+        <p>Better always home care... Professional medical services delivered by experienced doctors in the comfort of your home in Kathmandu.</p>
         <div class="hero-cta">
             <a href="booking.php" class="btn btn-primary">Get Started</a>
             <a href="services.php" class="btn btn-outline">Our Services</a>
-        </div>
-    </div>
-</section>
-
-<!-- About Us Preview -->
-<section class="about-preview" data-aos="fade">
-    <div class="container">
-        <div class="about-grid">
-            <div class="about-content">
-                <h2>Caring for Your Loved Ones Like Family</h2>
-                <p>With over two decades of experience in home healthcare, we understand that every patient deserves personalized care that respects their dignity and independence.</p>
-                <ul class="core-values">
-                    <li data-aos="fade-right" data-aos-delay="100">
-                        <i class="fas fa-heart"></i>
-                        <h3>Compassionate Care</h3>
-                        <p>We treat every patient with the warmth and attention they deserve.</p>
-                    </li>
-                    <li data-aos="fade-right" data-aos-delay="200">
-                        <i class="fas fa-user-md"></i>
-                        <h3>Professional Excellence</h3>
-                        <p>Our team consists of highly qualified and experienced healthcare professionals.</p>
-                    </li>
-                    <li data-aos="fade-right" data-aos-delay="300">
-                        <i class="fas fa-clock"></i>
-                        <h3>24/7 Support</h3>
-                        <p>Round-the-clock care and support when you need it most.</p>
-                    </li>
-                </ul>
-                <a href="about.php" class="btn btn-outline">Learn More About Us</a>
-            </div>
-            <div class="about-image" data-aos="fade-left">
-                <img src="images/about-preview.jpg" alt="Our healthcare team" loading="lazy">
-            </div>
         </div>
     </div>
 </section>
@@ -54,7 +21,7 @@
         </div>
         <div class="services-grid">
             <!-- Service Card 1 -->
-            <div class="service-card" data-aos="fade-up">
+            <div class="service-card" style="opacity: 1;">
                 <div class="service-icon">
                     <i class="fas fa-user-nurse"></i>
                 </div>
@@ -63,7 +30,7 @@
                 <a href="services.php#home-nursing" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
             <!-- Service Card 2 -->
-            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-card" style="opacity: 1;">
                 <div class="service-icon">
                     <i class="fas fa-hand-holding-heart"></i>
                 </div>
@@ -72,7 +39,7 @@
                 <a href="services.php#elderly-assistance" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
             </div>
             <!-- Service Card 3 -->
-            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-card" style="opacity: 1;">
                 <div class="service-icon">
                     <i class="fas fa-walking"></i>
                 </div>
@@ -149,29 +116,29 @@
         <div class="testimonials-slider" data-aos="fade-up">
             <!-- Testimonial 1 -->
             <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"The care and attention provided to my mother was exceptional. The staff was professional, caring, and always available when we needed them."</p>
+            <div class="testimonial-content">
+                <p>"The care and attention provided to my father was exceptional. The doctors were professional, caring, and always available when we needed them."</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="images/testimonial-1.jpg" alt="Priya Sharma" loading="lazy">
+                <div class="author-info">
+                    <h4>Priya Sharma</h4>
+                    <p>Daughter of Patient</p>
                 </div>
-                <div class="testimonial-author">
-                    <img src="images/testimonial-1.jpg" alt="Sarah Johnson" loading="lazy">
-                    <div class="author-info">
-                        <h4>Sarah Johnson</h4>
-                        <p>Daughter of Patient</p>
-                    </div>
-                </div>
+            </div>
             </div>
             <!-- Testimonial 2 -->
             <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"HomeCare's physical therapy services helped me recover faster than I expected. Their team is highly skilled and motivating."</p>
+            <div class="testimonial-content">
+                <p>"Doctors At Door Step's medical services helped me recover faster than I expected. Their team is highly skilled and motivating."</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="images/testimonial-2.jpg" alt="Raj Thapa" loading="lazy">
+                <div class="author-info">
+                    <h4>Raj Thapa</h4>
+                    <p>Patient</p>
                 </div>
-                <div class="testimonial-author">
-                    <img src="images/testimonial-2.jpg" alt="Robert Wilson" loading="lazy">
-                    <div class="author-info">
-                        <h4>Robert Wilson</h4>
-                        <p>Patient</p>
-                    </div>
-                </div>
+            </div>
             </div>
         </div>
     </div>

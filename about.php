@@ -3,8 +3,8 @@
 <!-- Hero Banner -->
 <section class="page-hero about-hero" data-aos="fade-up">
     <div class="container">
-        <h1>Caring With Compassion</h1>
-        <p>Dedicated to providing exceptional healthcare with a personal touch</p>
+        <h1>Better Always Home Care</h1>
+        <p>Dedicated to providing exceptional healthcare with doctors at your doorstep</p>
     </div>
 </section>
 
@@ -14,11 +14,11 @@
         <div class="story-grid">
             <div class="story-content">
                 <h2>Our Story</h2>
-                <p>Founded in 2005, HomeCare emerged from a simple yet powerful vision: to provide exceptional healthcare services in the comfort of people's homes. Our journey began when our founder, Dr. Sarah Mitchell, recognized the growing need for personalized, professional healthcare services that would allow patients to maintain their independence while receiving top-quality care.</p>
-                <p>Over the years, we've grown from a small team of dedicated caregivers to a comprehensive healthcare provider, serving thousands of families across the region. Our commitment to excellence and compassionate care remains at the heart of everything we do.</p>
+                <p>Founded in Kathmandu, Doctors At Door Step emerged from a simple yet powerful vision: to provide exceptional healthcare services in the comfort of people's homes. Our journey began when our founder recognized the growing need for personalized, professional healthcare services that would allow patients to maintain their independence while receiving top-quality care from qualified doctors.</p>
+                <p>Over the years, we've grown from a small team of dedicated medical professionals to a comprehensive healthcare provider, serving thousands of families across Kathmandu. Our commitment to excellence and compassionate care remains at the heart of everything we do.</p>
             </div>
             <div class="story-image" data-aos="fade-left">
-                <img src="images/our-story.jpg" alt="HomeCare's Journey" loading="lazy">
+                <img src="images/our-story.jpg" alt="Doctors At Door Step's Journey" loading="lazy">
             </div>
         </div>
     </div>
@@ -30,14 +30,14 @@
         <div class="mission-grid">
             <div class="mission-box" data-aos="fade-right">
                 <h2>Our Mission</h2>
-                <p>To enhance the quality of life for our patients through personalized, professional healthcare services delivered with compassion and excellence in the comfort of their homes.</p>
+                <p>To enhance the quality of life for our patients through personalized, professional medical services delivered with compassion and excellence by qualified doctors in the comfort of their homes.</p>
                 <div class="mission-icon">
                     <i class="fas fa-heart-pulse"></i>
                 </div>
             </div>
             <div class="mission-box" data-aos="fade-left">
                 <h2>Our Vision</h2>
-                <p>To be the leading provider of home healthcare services, setting the standard for quality care, innovation, and patient satisfaction in the industry.</p>
+                <p>To be the leading provider of doorstep medical services in Nepal, setting the standard for quality care, innovation, and patient satisfaction in the industry.</p>
                 <div class="mission-icon">
                     <i class="fas fa-star"></i>
                 </div>
@@ -83,34 +83,34 @@
             <!-- Team Member 1 -->
             <div class="team-member" data-aos="fade-up">
                 <div class="member-image">
-                    <img src="images/team-1.jpg" alt="Dr. Sarah Mitchell" loading="lazy">
+                    <img src="images/team-1.jpg" alt="Dr. Anish Sharma" loading="lazy">
                 </div>
                 <div class="member-info">
-                    <h3>Dr. Sarah Mitchell</h3>
+                    <h3>Dr. Anish Sharma</h3>
                     <p class="member-role">Founder & Medical Director</p>
-                    <p class="member-bio">With over 20 years of experience in healthcare, Dr. Mitchell leads our team with expertise and compassion.</p>
+                    <p class="member-bio">With over 15 years of experience in healthcare, Dr. Sharma leads our team with expertise and compassion.</p>
                 </div>
             </div>
             <!-- Team Member 2 -->
             <div class="team-member" data-aos="fade-up" data-aos-delay="100">
                 <div class="member-image">
-                    <img src="images/team-2.jpg" alt="Dr. James Wilson" loading="lazy">
+                    <img src="images/team-2.jpg" alt="Dr. Priya Patel" loading="lazy">
                 </div>
                 <div class="member-info">
-                    <h3>Dr. James Wilson</h3>
+                    <h3>Dr. Priya Patel</h3>
                     <p class="member-role">Chief Medical Officer</p>
-                    <p class="member-bio">Specializing in geriatric care, Dr. Wilson ensures the highest standards of medical care.</p>
+                    <p class="member-bio">Specializing in geriatric care, Dr. Patel ensures the highest standards of medical care.</p>
                 </div>
             </div>
             <!-- Team Member 3 -->
             <div class="team-member" data-aos="fade-up" data-aos-delay="200">
                 <div class="member-image">
-                    <img src="images/team-3.jpg" alt="Emily Parker" loading="lazy">
+                    <img src="images/team-3.jpg" alt="Dr. Rajesh Thapa" loading="lazy">
                 </div>
                 <div class="member-info">
-                    <h3>Emily Parker</h3>
-                    <p class="member-role">Head of Nursing</p>
-                    <p class="member-bio">Leading our nursing team with dedication and expertise in home healthcare.</p>
+                    <h3>Dr. Rajesh Thapa</h3>
+                    <p class="member-role">Head of Medical Services</p>
+                    <p class="member-bio">Leading our medical team with dedication and expertise in home healthcare.</p>
                 </div>
             </div>
         </div>

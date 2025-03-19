@@ -3,8 +3,8 @@
 <!-- Hero Banner -->
 <section class="page-hero services-hero" data-aos="fade-up">
     <div class="container">
-        <h1>Our Healthcare Services</h1>
-        <p>Comprehensive home healthcare solutions tailored to your needs</p>
+        <h1>Our Medical Services</h1>
+        <p>Comprehensive doorstep medical solutions by qualified doctors tailored to your needs</p>
     </div>
 </section>
 
@@ -20,8 +20,8 @@
                 <div class="service-icon">
                     <i class="fas fa-user-nurse"></i>
                 </div>
-                <h2>Home Nursing</h2>
-                <p>Professional nursing care delivered in the comfort of your home. Our qualified nurses provide:</p>
+                <h2>Home Medical Care</h2>
+                <p>Professional medical care delivered by qualified doctors in the comfort of your home. Our doctors provide:</p>
                 <ul>
                     <li>Medication management and administration</li>
                     <li>Wound care and dressing changes</li>
@@ -86,8 +86,8 @@
                 <div class="service-icon">
                     <i class="fas fa-phone-alt"></i>
                 </div>
-                <h2>24/7 Medical Support</h2>
-                <p>Round-the-clock medical assistance and monitoring:</p>
+                <h2>24/7 Doctor Support</h2>
+                <p>Round-the-clock doctor assistance and monitoring:</p>
                 <ul>
                     <li>Emergency response services</li>
                     <li>Continuous health monitoring</li>
@@ -126,8 +126,8 @@
 <!-- Service Process -->
 <section class="service-process" data-aos="fade-up">
     <div class="container">
-        <h2>How It Works</h2>
-        <p class="section-subtitle">Our simple process to get you started with the care you need</p>
+            <h2>How It Works</h2>
+            <p class="section-subtitle">Our simple process to get you started with the medical care you need</p>
         
         <div class="process-steps">
             <!-- Step 1 -->
@@ -167,21 +167,21 @@
         <div class="faq-accordion">
             <div class="faq-item" data-aos="fade-up">
                 <div class="faq-question">
-                    <h3>What types of care services do you offer?</h3>
+                    <h3>What types of medical services do you offer?</h3>
                     <span class="faq-toggle"><i class="fas fa-plus"></i></span>
                 </div>
                 <div class="faq-answer">
-                    <p>We offer a comprehensive range of home healthcare services including nursing care, elderly assistance, physical therapy, 24/7 medical support, and companionship care. Each service is customized to meet your specific needs.</p>
+                    <p>We offer a comprehensive range of doorstep medical services including doctor consultations, elderly assistance, physical therapy, 24/7 doctor support, and companionship care. Each service is customized to meet your specific needs in Kathmandu.</p>
                 </div>
             </div>
 
             <div class="faq-item" data-aos="fade-up">
                 <div class="faq-question">
-                    <h3>How do you select your caregivers?</h3>
+                    <h3>How do you select your doctors?</h3>
                     <span class="faq-toggle"><i class="fas fa-plus"></i></span>
                 </div>
                 <div class="faq-answer">
-                    <p>All our caregivers undergo thorough background checks, licensing verification, and extensive training. We only select professionals who demonstrate both technical expertise and compassionate care abilities.</p>
+                    <p>All our doctors undergo thorough background checks, licensing verification, and extensive training. We only select medical professionals who demonstrate both technical expertise and compassionate care abilities.</p>
                 </div>
             </div>
 

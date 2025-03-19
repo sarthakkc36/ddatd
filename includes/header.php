@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomeCare - Professional Healthcare Services</title>
+    <title>Doctors At Door Step - Professional Healthcare Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -16,7 +16,7 @@
         <div class="container">
             <nav class="nav">
                 <a href="index.php" class="logo">
-                    <h1>HomeCare</h1>
+                    <h1>Doctors At Door Step</h1>
                 </a>
                 
                 <div class="nav-toggle" id="navToggle">

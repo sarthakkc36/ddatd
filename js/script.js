@@ -41,10 +41,23 @@ window.addEventListener('scroll', () => {
 });
 
 // Initialize AOS
-AOS.init({
-    duration: 800,
-    once: true,
-    offset: 100
+document.addEventListener('DOMContentLoaded', () => {
+    // Fix for service cards - remove AOS attributes
+    const serviceCards = document.querySelectorAll('.service-card');
+    if (serviceCards.length > 0) {
+        serviceCards.forEach(card => {
+            // Remove AOS attributes from service cards to prevent conflicts with GSAP
+            card.removeAttribute('data-aos');
+            card.removeAttribute('data-aos-delay');
+        });
+    }
+    
+    // Initialize AOS for other elements
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+    });
 });
 
 // GSAP Animations
@@ -73,21 +86,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Animate service cards
-    const serviceCards = document.querySelectorAll('.service-card');
-    if (serviceCards.length > 0) {
-        gsap.from(serviceCards, {
-            y: 60,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            ease: "power3.out",
-            scrollTrigger: {
-                trigger: ".services-grid",
-                start: "top 80%",
-            }
-        });
-    }
+// Animate service cards
+const serviceCards = document.querySelectorAll('.service-card');
+if (serviceCards.length > 0) {
+    // Make sure service cards are visible initially
+    serviceCards.forEach(card => {
+        card.style.opacity = 1;
+    });
+    
+    // Then apply GSAP animation
+    gsap.from(serviceCards, {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: ".services-grid",
+            start: "top 80%",
+        }
+    });
+}
 
     // Animate team members
     const teamMembers = document.querySelectorAll('.team-member');

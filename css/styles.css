@@ -68,7 +68,6 @@ a {
     justify-content: space-between;
     align-items: center;
     height: 80px;
-    padding: 0 1rem;
     max-width: 100%;
     box-sizing: border-box;
 }
@@ -82,8 +81,10 @@ a {
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link {
@@ -444,79 +445,97 @@ a {
 
     /* Enhanced mobile optimization for about preview section */
     .about-preview {
-        padding: 40px 0;
+        padding: 60px 0;
     }
     
     .about-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 2rem;
     }
 
     .about-content {
         padding: 0 1rem;
-        text-align: left;
+        text-align: center;
         order: 2;
+        width: 100%;
     }
 
     .about-content h2 {
-        font-size: 1.75rem;
+        font-size: 2rem;
         line-height: 1.3;
+        text-align: center;
     }
     
     .about-content p {
-        font-size: 1rem;
+        font-size: 1.1rem;
         line-height: 1.6;
+        margin-bottom: 1.5rem;
+        text-align: center;
     }
 
     .core-values {
-        margin: 2rem 0;
+        margin: 2.5rem auto;
+        width: 100%;
+        max-width: 400px;
     }
 
     .core-values li {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        align-items: start;
-        gap: 1rem;
-        text-align: left;
-        padding: 1.25rem;
-        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
         background: var(--white);
-        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        box-shadow: var(--box-shadow);
+        width: 100%;
     }
 
     .core-values li i {
-        grid-row: span 2;
-        font-size: 1.5rem;
-        margin-top: 0.25rem;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
     }
 
     .core-values h3 {
-        font-size: 1.1rem;
-        margin-bottom: 0.25rem;
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+        width: 100%;
+        text-align: center;
     }
 
     .core-values p {
         margin: 0;
-        font-size: 0.9rem;
+        font-size: 1rem;
         color: var(--secondary-color);
+        width: 100%;
+        text-align: center;
     }
 
     .about-image {
-        max-height: 200px;
-        margin: 0 1rem 1rem;
+        max-height: 250px;
+        margin: 0 auto 2rem;
+        width: 90%;
         order: 1;
-        border-radius: 8px;
+        border-radius: 12px;
         overflow: hidden;
+        box-shadow: var(--box-shadow);
     }
 
     .about-image img {
         height: 100%;
+        width: 100%;
         object-fit: cover;
     }
 
     .about-content .btn {
-        width: 100%;
-        margin-top: 1rem;
+        display: block;
+        width: 80%;
+        margin: 1.5rem auto 0;
+        padding: 1rem;
+        font-size: 1.1rem;
     }
 }
 
@@ -587,15 +606,19 @@ a {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     padding: 0 1rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .service-card {
     padding: 2rem;
-    background: var(--light-color);
+    background: var(--white);
     border-radius: 8px;
     text-align: center;
     transition: var(--transition);
     border: 1px solid var(--gray-200);
+    box-shadow: var(--box-shadow);
 }
 
 .service-card:hover {
@@ -620,6 +643,7 @@ a {
     margin-bottom: 1rem;
     color: var(--dark-color);
     font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .service-card p {
@@ -635,7 +659,7 @@ a {
     gap: 0.5rem;
     margin-top: 1rem;
     color: var(--primary-color);
-    font-weight: 500;
+    font-weight: 600;
     padding: 0.5rem 0;
 }
 
@@ -2305,13 +2329,8 @@ a {
         transform: rotate(-45deg) translate(7px, -5px);
     }
 
-    .container {
-        padding: 0;
-        overflow-x: hidden;
-    }
-
     .header {
-        width: 100vw;
+        width: 100%;
         overflow-x: hidden;
     }
 }

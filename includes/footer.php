@@ -19,10 +19,10 @@
                 <div class="footer-section" data-aos="fade-up" data-aos-delay="100">
                     <h3>Our Services</h3>
                     <ul>
-                        <li><a href="services.php#home-nursing">Home Nursing</a></li>
+                        <li><a href="services.php#home-nursing">Home Medical Care</a></li>
                         <li><a href="services.php#elderly-assistance">Elderly Assistance</a></li>
                         <li><a href="services.php#physical-therapy">Physical Therapy</a></li>
-                        <li><a href="services.php#medical-support">24/7 Medical Support</a></li>
+                        <li><a href="services.php#medical-support">24/7 Doctor Support</a></li>
                         <li><a href="services.php#companionship">Companionship Care</a></li>
                     </ul>
                 </div>
@@ -31,9 +31,9 @@
                 <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
                     <h3>Contact Us</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-envelope"></i> info@homecare.com</li>
-                        <li><i class="fas fa-location-dot"></i> 123 Healthcare Ave,<br>Medical District, MD 12345</li>
+                        <li><i class="fas fa-phone"></i> +977 (01) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@doctorsatdoorstep.com</li>
+                        <li><i class="fas fa-location-dot"></i> 123 Medical Street,<br>Kathmandu, Nepal</li>
                     </ul>
                 </div>
 
@@ -56,7 +56,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 HomeCare. All rights reserved.</p>
+                <p>&copy; 2025 Doctors At Door Step. All rights reserved.</p>
             </div>
         </div>
     </footer>

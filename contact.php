@@ -62,7 +62,7 @@
                             <i class="fas fa-phone"></i>
                             <div class="contact-text">
                                 <h3>Phone</h3>
-                                <p><a href="tel:+15551234567">(555) 123-4567</a></p>
+                                <p><a href="tel:+97701456789">+977 (01) 456-7890</a></p>
                                 <p class="text-muted">Available 24/7 for emergencies</p>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                             <i class="fas fa-envelope"></i>
                             <div class="contact-text">
                                 <h3>Email</h3>
-                                <p><a href="mailto:info@homecare.com">info@homecare.com</a></p>
+                                <p><a href="mailto:info@doctorsatdoorstep.com">info@doctorsatdoorstep.com</a></p>
                                 <p class="text-muted">We'll respond within 24 hours</p>
                             </div>
                         </div>
@@ -80,8 +80,8 @@
                             <i class="fas fa-location-dot"></i>
                             <div class="contact-text">
                                 <h3>Office Location</h3>
-                                <p>123 Healthcare Avenue</p>
-                                <p>Medical District, MD 12345</p>
+                                <p>123 Medical Street</p>
+                                <p>Kathmandu, Nepal</p>
                             </div>
                         </div>
 
@@ -116,7 +116,7 @@
 <section class="map-section" data-aos="fade-up">
     <div class="map-wrapper">
         <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.67890!2d-73.123456!3d40.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDA3JzM0LjQiTiA3M8KwMDcnMzQuNCJX!5e0!3m2!1sen!2sus!4v1234567890"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56516.31625953805!2d85.29111341744386!3d27.70895594801841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb198a307baabf%3A0xb5137c1bf18db1ea!2sKathmandu%2044600%2C%20Nepal!5e0!3m2!1sen!2sus!4v1616661495075!5m2!1sen!2sus"
             width="100%" 
             height="450" 
             style="border:0;" 
@@ -165,7 +165,7 @@
             <div class="emergency-text">
                 <h2>24/7 Emergency Contact</h2>
                 <p>For urgent medical assistance or care needs</p>
-                <a href="tel:+15551234567" class="emergency-phone">(555) 123-4567</a>
+                <a href="tel:+97701456789" class="emergency-phone">+977 (01) 456-7890</a>
             </div>
         </div>
     </div>
