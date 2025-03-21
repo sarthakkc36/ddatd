@@ -67,7 +67,6 @@ $settings = [
         'date_format' => 'Y-m-d',
         'time_format' => 'H:i',
         'enable_registration' => '1',
-        'enable_blog' => '1',
         'enable_testimonials' => '1',
         'maintenance_mode' => '0',
         'debug_mode' => '0'
@@ -453,9 +452,7 @@ if (!array_key_exists($currentSection, $settings)) {
             <a href="testimonials.php" class="menu-item">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
-            <a href="blog.php" class="menu-item">
-                <i class="fas fa-blog"></i> Blog Posts
-            </a>
+
             <a href="inquiries.php" class="menu-item">
                 <i class="fas fa-envelope"></i> Inquiries
             </a>
@@ -842,15 +839,7 @@ if (!array_key_exists($currentSection, $settings)) {
                                     <input type="checkbox" id="enable_registration" name="enable_registration" value="1" <?php echo $settings['system']['enable_registration'] ? 'checked' : ''; ?>>
                                     <label for="enable_registration">Enable User Registration</label>
                                 </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <div class="checkbox-group">
-                                    <input type="checkbox" id="enable_blog" name="enable_blog" value="1" <?php echo $settings['system']['enable_blog'] ? 'checked' : ''; ?>>
-                                    <label for="enable_blog">Enable Blog</label>
-                                </div>
-                            </div>
-                            
+                            </div>                            
                             <div class="form-group">
                                 <div class="checkbox-group">
                                     <input type="checkbox" id="enable_testimonials" name="enable_testimonials" value="1" <?php echo $settings['system']['enable_testimonials'] ? 'checked' : ''; ?>>

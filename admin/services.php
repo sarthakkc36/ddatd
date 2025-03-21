@@ -468,9 +468,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
             <a href="testimonials.php" class="menu-item">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
-            <a href="blog.php" class="menu-item">
-                <i class="fas fa-blog"></i> Blog Posts
-            </a>
+
             <a href="inquiries.php" class="menu-item">
                 <i class="fas fa-envelope"></i> Inquiries
             </a>
@@ -588,18 +586,7 @@ $services = $action === 'list' ? $serviceHandler->getAllServices() : [];
                         <input type="text" id="icon" name="image" value="<?php echo $action === 'edit' ? htmlspecialchars($serviceData['image']) : ''; ?>" required>
                         <small class="text-muted">Example: fa-user-nurse, fa-heartbeat, etc.</small>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="service_image">Service Image</label>
-                        <input type="file" id="service_image" name="service_image" accept="image/*">
-                        <small class="text-muted">Upload an image for this service (JPG, PNG, GIF). Max size: 5MB.</small>
-                        <?php if ($action === 'edit' && !empty($serviceData['image_path'])): ?>
-                            <div class="mt-2">
-                                <p>Current image:</p>
-                                <img src="<?php echo htmlspecialchars($serviceData['image_path']); ?>" alt="Service image" style="max-width: 200px; max-height: 200px;">
-                            </div>
-                        <?php endif; ?>
-                    </div>
+                
                     
                     <div class="form-group">
                         <label for="price">Price (NPR)</label>

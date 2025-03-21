@@ -467,9 +467,6 @@ if ($action === 'view' && $inquiryId > 0) {
             <a href="testimonials.php" class="menu-item">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
-            <a href="blog.php" class="menu-item">
-                <i class="fas fa-blog"></i> Blog Posts
-            </a>
             <a href="inquiries.php" class="menu-item active">
                 <i class="fas fa-envelope"></i> Inquiries
             </a>

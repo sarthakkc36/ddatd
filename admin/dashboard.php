@@ -421,16 +421,6 @@ $recent_activity = get_recent_activity(5);
             
             <div class="stat-card">
                 <div class="stat-icon">
-                    <i class="fas fa-blog"></i>
-                </div>
-                <div class="stat-info">
-                    <h3><?php echo $stats['total_blog_posts']; ?></h3>
-                    <p>Blog Posts</p>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">
                     <i class="fas fa-envelope"></i>
                 </div>
                 <div class="stat-info">
@@ -478,13 +468,6 @@ $recent_activity = get_recent_activity(5);
                     </a>
                 </div>
                 
-                <div class="action-card">
-                    <a href="blog.php?action=add">
-                        <i class="fas fa-pen-fancy"></i>
-                        <h4>Write Blog Post</h4>
-                        <p>Create a new article</p>
-                    </a>
-                </div>
             </div>
         </div>
         

@@ -59,8 +59,17 @@ class Database {
 
     public function update($table, $data, $where, $whereParams = []) {
         $setParts = array_map(function($field) { return "$field = :$field"; }, array_keys($data));
-        $sql = "UPDATE $table SET " . implode(", ", $setParts) . " WHERE $where";
         
+        // Convert positional where parameters to named parameters
+        $whereConditions = $where;
+        foreach ($whereParams as $index => $value) {
+            $paramName = ":where_param_$index";
+            $whereConditions = preg_replace('/\?/', $paramName, $whereConditions, 1);
+            $whereParams[$paramName] = $value;
+            unset($whereParams[$index]);
+        }
+        
+        $sql = "UPDATE $table SET " . implode(", ", $setParts) . " WHERE $whereConditions";
         $params = array_merge($data, $whereParams);
         $this->query($sql, $params);
     }

@@ -24,12 +24,6 @@ $services = $servicesHandler->getAllActiveServices();
         <?php else: ?>
             <?php foreach ($services as $service): ?>
                 <div class="service-item" id="service-<?php echo $service['id']; ?>" data-aos="fade-up">
-                    <div class="service-image">
-                        <img src="images/services/<?php echo htmlspecialchars($service['image']); ?>.jpg" 
-                             alt="<?php echo htmlspecialchars($service['title']); ?>" 
-                             loading="lazy"
-                             onerror="this.src='images/placeholder-service.jpg'">
-                    </div>
                     <div class="service-details">
                         <div class="service-icon">
                             <i class="fas <?php echo htmlspecialchars($service['image']); ?>"></i>
