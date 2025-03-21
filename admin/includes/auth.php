@@ -16,6 +16,8 @@ function get_dashboard_stats() {
         
         $stats = [
             'total_services' => $db->selectOne("SELECT COUNT(*) as count FROM services")['count'] ?? 0,
+            'total_team_members' => $db->selectOne("SELECT COUNT(*) as count FROM team_members")['count'] ?? 0,
+            'total_testimonials' => $db->selectOne("SELECT COUNT(*) as count FROM testimonials")['count'] ?? 0,
             'total_bookings' => $db->selectOne("SELECT COUNT(*) as count FROM bookings")['count'] ?? 0,
             'pending_bookings' => $db->selectOne("SELECT COUNT(*) as count FROM bookings WHERE status = 'pending'")['count'] ?? 0,
             'total_inquiries' => $db->selectOne("SELECT COUNT(*) as count FROM contact_messages")['count'] ?? 0,
@@ -30,6 +32,8 @@ function get_dashboard_stats() {
             'total_bookings' => 0,
             'pending_bookings' => 0,
             'total_inquiries' => 0,
+            'total_team_members' => 0,
+            'total_testimonials' => 0,
             'new_messages' => 0
         ];
     }

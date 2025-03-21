@@ -81,9 +81,9 @@
         
         <div class="team-grid">
             <!-- Team Member 1 -->
-            <div class="team-member" data-aos="fade-up">
+            <div class="team-member">
                 <div class="member-image">
-                    <img src="images/team-1.jpg" alt="Dr. Anish Sharma" loading="lazy">
+                    <img src="https://via.placeholder.com/300x400.jpg?text=Dr.+Anish+Sharma" alt="Dr. Anish Sharma" loading="lazy">
                 </div>
                 <div class="member-info">
                     <h3>Dr. Anish Sharma</h3>
@@ -92,9 +92,9 @@
                 </div>
             </div>
             <!-- Team Member 2 -->
-            <div class="team-member" data-aos="fade-up" data-aos-delay="100">
+            <div class="team-member">
                 <div class="member-image">
-                    <img src="images/team-2.jpg" alt="Dr. Priya Patel" loading="lazy">
+                    <img src="https://via.placeholder.com/300x400.jpg?text=Dr.+Priya+Patel" alt="Dr. Priya Patel" loading="lazy">
                 </div>
                 <div class="member-info">
                     <h3>Dr. Priya Patel</h3>
@@ -103,9 +103,9 @@
                 </div>
             </div>
             <!-- Team Member 3 -->
-            <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+            <div class="team-member">
                 <div class="member-image">
-                    <img src="images/team-3.jpg" alt="Dr. Rajesh Thapa" loading="lazy">
+                    <img src="https://via.placeholder.com/300x400.jpg?text=Dr.+Rajesh+Thapa" alt="Dr. Rajesh Thapa" loading="lazy">
                 </div>
                 <div class="member-info">
                     <h3>Dr. Rajesh Thapa</h3>

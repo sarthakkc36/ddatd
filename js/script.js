@@ -108,9 +108,17 @@ if (serviceCards.length > 0) {
     });
 }
 
-    // Animate team members
+    // Handle team members
     const teamMembers = document.querySelectorAll('.team-member');
     if (teamMembers.length > 0) {
+        // Remove AOS attributes and make them visible
+        teamMembers.forEach(member => {
+            member.removeAttribute('data-aos');
+            member.removeAttribute('data-aos-delay');
+            member.style.opacity = 1;
+        });
+
+        // Apply GSAP animation
         gsap.from(teamMembers, {
             scale: 0.8,
             opacity: 0,
