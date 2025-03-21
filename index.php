@@ -152,50 +152,6 @@ $featuredServices = array_slice($servicesHandler->getAllActiveServices(), 0, 3);
     </div>
 </section>
 
-<!-- Blog Preview -->
-<section class="blog-preview">
-    <div class="container">
-        <div class="section-header" data-aos="fade-up">
-            <h2>Latest Health Tips & News</h2>
-            <p>Stay informed with our latest healthcare insights</p>
-        </div>
-        <div class="blog-grid">
-            <!-- Blog Post 1 -->
-            <article class="blog-card" data-aos="fade-up">
-                <div class="blog-image">
-                    <img src="images/blog-1.jpg" alt="Elderly Care Tips" loading="lazy">
-                </div>
-                <div class="blog-content">
-                    <h3>Essential Tips for Elderly Care at Home</h3>
-                    <p>Learn about the best practices for taking care of elderly loved ones in a home setting.</p>
-                    <a href="blog-single.php?post=elderly-care-tips" class="read-more">Read More</a>
-                </div>
-            </article>
-            <!-- Blog Post 2 -->
-            <article class="blog-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="blog-image">
-                    <img src="images/blog-2.jpg" alt="Physical Therapy Benefits" loading="lazy">
-                </div>
-                <div class="blog-content">
-                    <h3>Benefits of Regular Physical Therapy</h3>
-                    <p>Discover how regular physical therapy can improve mobility and quality of life.</p>
-                    <a href="blog-single.php?post=physical-therapy-benefits" class="read-more">Read More</a>
-                </div>
-            </article>
-            <!-- Blog Post 3 -->
-            <article class="blog-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="blog-image">
-                    <img src="images/blog-3.jpg" alt="Mental Health Care" loading="lazy">
-                </div>
-                <div class="blog-content">
-                    <h3>Mental Health Care for Seniors</h3>
-                    <p>Understanding the importance of mental health in elderly care and support.</p>
-                    <a href="blog-single.php?post=mental-health-care" class="read-more">Read More</a>
-                </div>
-            </article>
-        </div>
-    </div>
-</section>
 
 <!-- Contact CTA -->
 <section class="contact-cta">
