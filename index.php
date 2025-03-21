@@ -114,40 +114,85 @@ $featuredServices = array_slice($servicesHandler->getAllActiveServices(), 0, 3);
     </div>
 </section>
 
+<?php
+// Get testimonials data
+require_once 'includes/Testimonials.php';
+$testimonialHandler = new Testimonials();
+$testimonials = $testimonialHandler->getAllActiveTestimonials();
+?>
+
 <!-- Testimonials Section -->
 <section class="testimonials">
     <div class="container">
-        <div class="section-header" data-aos="fade-up">
+        <div class="section-header">
             <h2>What Our Clients Say</h2>
             <p>Real experiences from families we've helped</p>
         </div>
-        <div class="testimonials-slider" data-aos="fade-up">
-            <!-- Testimonial 1 -->
-            <div class="testimonial-card">
-            <div class="testimonial-content">
-                <p>"The care and attention provided to my father was exceptional. The doctors were professional, caring, and always available when we needed them."</p>
-            </div>
-            <div class="testimonial-author">
-                <img src="images/testimonial-1.jpg" alt="Priya Sharma" loading="lazy">
-                <div class="author-info">
-                    <h4>Priya Sharma</h4>
-                    <p>Daughter of Patient</p>
+        
+        <div class="testimonials-slider">
+            <!-- Swiper Container -->
+            <div class="swiper-container testimonials-swiper">
+                <div class="swiper-wrapper">
+                    <?php if (empty($testimonials)): ?>
+                        <!-- Fallback if no testimonials -->
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="testimonial-content">
+                                    <p>"The care and attention provided by the doctors was exceptional. They made my recovery process so much more comfortable in my own home."</p>
+                                </div>
+                                <div class="testimonial-author">
+                                    <div class="testimonial-author-image no-image">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Raj Thapa</h4>
+                                        <p>Patient</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <?php foreach ($testimonials as $testimonial): ?>
+                            <div class="swiper-slide">
+                                <div class="testimonial-card">
+                                    <div class="testimonial-content">
+                                        <p>"<?php echo htmlspecialchars($testimonial['content']); ?>"</p>
+                                    </div>
+                                    <div class="testimonial-author">
+                                        <!-- Fixed image path handling -->
+                                        <?php if (!empty($testimonial['photo_path'])): ?>
+                                            <!-- Correctly referencing the image path from the root -->
+                                            <div class="testimonial-author-image" style="background-image: url('<?php echo htmlspecialchars($testimonial['photo_path']); ?>'); background-size: cover; background-position: center;"></div>
+                                        <?php else: ?>
+                                            <div class="testimonial-author-image no-image">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="author-info">
+                                            <h4><?php echo htmlspecialchars($testimonial['name']); ?></h4>
+                                            <p><?php echo htmlspecialchars($testimonial['position']); ?></p>
+                                            <?php if ($testimonial['rating'] > 0): ?>
+                                            <div class="testimonial-rating">
+                                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                    <i class="fas fa-star<?php echo $i <= $testimonial['rating'] ? '' : '-o'; ?>"></i>
+                                                <?php endfor; ?>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
+                
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
             </div>
-            </div>
-            <!-- Testimonial 2 -->
-            <div class="testimonial-card">
-            <div class="testimonial-content">
-                <p>"Doctors At Door Step's medical services helped me recover faster than I expected. Their team is highly skilled and motivating."</p>
-            </div>
-            <div class="testimonial-author">
-                <img src="images/testimonial-2.jpg" alt="Raj Thapa" loading="lazy">
-                <div class="author-info">
-                    <h4>Raj Thapa</h4>
-                    <p>Patient</p>
-                </div>
-            </div>
-            </div>
+            
+            <!-- Add Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
     </div>
 </section>
@@ -166,5 +211,63 @@ $featuredServices = array_slice($servicesHandler->getAllActiveServices(), 0, 3);
         </div>
     </div>
 </section>
+<!-- Add this right before the closing body tag in index.php -->
+<script>
+// Testimonials Slider Initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize testimonials slider
+    if (document.querySelector('.testimonials-swiper')) {
+        // Check if Swiper is already loaded
+        if (typeof Swiper !== 'undefined') {
+            initTestimonialsSlider();
+        } else {
+            // If Swiper isn't loaded yet, wait for a moment and try again
+            setTimeout(function() {
+                if (typeof Swiper !== 'undefined') {
+                    initTestimonialsSlider();
+                } else {
+                    console.error('Swiper library not loaded properly');
+                }
+            }, 1000);
+        }
+    }
+});
 
+function initTestimonialsSlider() {
+    // Simple configuration without complex animations
+    var testimonialSwiper = new Swiper('.testimonials-swiper', {
+        // Optional parameters
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        // Responsive breakpoints
+        breakpoints: {
+            // when window width is >= 768px
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            // when window width is >= 1024px
+            1024: {
+                slidesPerView: 2,
+                spaceBetween: 30
+            }
+        },
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        // Pagination
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        }
+    });
+}
+</script>
 <?php include 'includes/footer.php'; ?>

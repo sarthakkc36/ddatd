@@ -3739,3 +3739,120 @@ section {
     justify-content: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
+/* Add this to your styles.css file */
+
+/* Testimonials Section */
+.testimonials {
+    padding: 80px 0;
+    background: var(--white);
+    position: relative;
+}
+
+.testimonials-slider {
+    position: relative;
+    margin: 40px auto;
+    max-width: 1000px;
+    padding: 0 40px;
+}
+
+/* Testimonial Card Styles */
+.testimonial-card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px 10px;
+    transition: all 0.3s ease;
+}
+
+.testimonial-content {
+    font-style: italic;
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.testimonial-author-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+}
+
+.testimonial-author-image.no-image {
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.author-info h4 {
+    margin: 0 0 5px;
+    font-size: 1.1rem;
+    color: var(--dark-color);
+}
+
+.author-info p {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+/* Swiper Specific Styling */
+.testimonials-swiper {
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+
+.swiper-pagination {
+    bottom: 0 !important;
+}
+
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: var(--primary-color);
+    opacity: 0.3;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background: var(--primary-color);
+}
+
+.swiper-button-next, 
+.swiper-button-prev {
+    color: var(--primary-color) !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .testimonials-slider {
+        padding: 0 20px;
+    }
+    
+    .testimonial-card {
+        padding: 20px;
+    }
+    
+    .swiper-button-next, 
+    .swiper-button-prev {
+        display: none;
+    }
+}

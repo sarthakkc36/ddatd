@@ -10,37 +10,71 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
-// Placeholder for testimonials functionality
+require_once '../includes/Testimonials.php';
+
+// Initialize Testimonials handler
+$testimonialHandler = new Testimonials();
 $message = '';
 $messageType = '';
 
-// Sample testimonials for demonstration
-$testimonials = [
-    [
-        'id' => 1,
-        'name' => 'Rajesh Sharma',
-        'position' => 'Patient',
-        'content' => 'The home visit service was excellent. The doctor was professional, thorough, and made me feel comfortable. I highly recommend Doctors At Door Step.',
-        'rating' => 5,
-        'is_active' => 1
-    ],
-    [
-        'id' => 2,
-        'name' => 'Priya Patel',
-        'position' => 'Mother of two',
-        'content' => 'As a busy mom, having a doctor come to our home was incredibly convenient. The pediatrician was great with my children and provided excellent care.',
-        'rating' => 5,
-        'is_active' => 1
-    ],
-    [
-        'id' => 3,
-        'name' => 'Anil Kumar',
-        'position' => 'Elderly patient',
-        'content' => 'At my age, going to the hospital is difficult. This service has been a blessing. The doctors are knowledgeable and caring.',
-        'rating' => 4,
-        'is_active' => 1
-    ]
-];
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        if (isset($_POST['action'])) {
+            $data = [
+                'name' => $_POST['name'],
+                'position' => $_POST['position'],
+                'content' => $_POST['content'],
+                'rating' => $_POST['rating'],
+                'is_active' => $_POST['status'] === 'active',
+                'display_order' => intval($_POST['display_order'] ?? 0)
+            ];
+
+            // Handle photo upload
+            if (!empty($_FILES['client_photo']['name'])) {
+                $targetDir = "../uploads/testimonials/";
+                if (!file_exists($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                $fileExtension = strtolower(pathinfo($_FILES['client_photo']['name'], PATHINFO_EXTENSION));
+                $fileName = uniqid('testimonial_') . '.' . $fileExtension;
+                $targetPath = $targetDir . $fileName;
+
+                if (move_uploaded_file($_FILES['client_photo']['tmp_name'], $targetPath)) {
+                    $data['photo_path'] = 'uploads/testimonials/' . $fileName;
+                } else {
+                    throw new Exception("Failed to upload photo");
+                }
+            }
+
+            if ($_POST['action'] === 'add') {
+                $testimonialHandler->createTestimonial($data);
+                $message = 'Testimonial added successfully!';
+                $messageType = 'success';
+            } elseif ($_POST['action'] === 'edit') {
+                $testimonialHandler->updateTestimonial($_POST['id'], $data);
+                $message = 'Testimonial updated successfully!';
+                $messageType = 'success';
+            }
+        }
+    } catch (Exception $e) {
+        $message = $e->getMessage();
+        $messageType = 'error';
+    }
+}
+
+// Handle delete action
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+    try {
+        $testimonialHandler->deleteTestimonial($_GET['id']);
+        $message = 'Testimonial deleted successfully!';
+        $messageType = 'success';
+    } catch (Exception $e) {
+        $message = $e->getMessage();
+        $messageType = 'error';
+    }
+}
 
 // Determine if we're adding, editing, or listing testimonials
 $action = isset($_GET['action']) ? $_GET['action'] : 'list';
@@ -49,26 +83,24 @@ $testimonialId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 // Get testimonial data for editing
 $testimonialData = [];
 if ($action === 'edit' && $testimonialId > 0) {
-    foreach ($testimonials as $testimonial) {
-        if ($testimonial['id'] === $testimonialId) {
-            $testimonialData = $testimonial;
-            break;
-        }
-    }
+    $testimonialData = $testimonialHandler->getTestimonialById($testimonialId);
     
-    if (empty($testimonialData)) {
+    if (!$testimonialData) {
         $message = 'Testimonial not found!';
         $messageType = 'error';
         $action = 'list';
     }
 }
+
+// Get all testimonials for listing
+$testimonials = $testimonialHandler->getAllTestimonials();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Testimonials - Doctors At Door Step</title>
+    <title>Manage Testimonials - HomeCare</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -278,6 +310,13 @@ if ($action === 'edit' && $testimonialId > 0) {
             align-items: center;
             justify-content: center;
             font-size: 20px;
+            overflow: hidden;
+        }
+        
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .testimonial-status {
@@ -354,7 +393,11 @@ if ($action === 'edit' && $testimonialId > 0) {
             font-weight: 500;
         }
         
-        .form-group input, .form-group textarea, .form-group select {
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #e0e0e0;
@@ -363,7 +406,7 @@ if ($action === 'edit' && $testimonialId > 0) {
         }
         
         .form-group textarea {
-            min-height: 100px;
+            min-height: 150px;
             resize: vertical;
         }
         
@@ -439,6 +482,20 @@ if ($action === 'edit' && $testimonialId > 0) {
             text-align: center;
         }
         
+        /* Preview current image */
+        .current-image {
+            margin-top: 10px;
+            max-width: 150px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .current-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
         /* Responsive */
         @media (max-width: 991px) {
             .sidebar {
@@ -467,7 +524,7 @@ if ($action === 'edit' && $testimonialId > 0) {
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h1>Doctors At Door Step</h1>
+            <h1>HomeCare</h1>
             <p>Admin Panel</p>
         </div>
         
@@ -484,7 +541,6 @@ if ($action === 'edit' && $testimonialId > 0) {
             <a href="testimonials.php" class="menu-item active">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
-
             <a href="inquiries.php" class="menu-item">
                 <i class="fas fa-envelope"></i> Inquiries
             </a>
@@ -552,10 +608,17 @@ if ($action === 'edit' && $testimonialId > 0) {
                             <?php foreach ($testimonials as $testimonial): ?>
                                 <tr>
                                     <td>
-                                        <div class="testimonial-avatar">
-                                            <i class="fas fa-user"></i>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div class="testimonial-avatar">
+                                                <?php if (!empty($testimonial['photo_path'])): ?>
+                                                    <img src="../<?php echo htmlspecialchars($testimonial['photo_path']); ?>" 
+                                                         alt="<?php echo htmlspecialchars($testimonial['name']); ?>">
+                                                <?php else: ?>
+                                                    <i class="fas fa-user"></i>
+                                                <?php endif; ?>
+                                            </div>
+                                            <?php echo htmlspecialchars($testimonial['name']); ?>
                                         </div>
-                                        <?php echo htmlspecialchars($testimonial['name']); ?>
                                     </td>
                                     <td><?php echo htmlspecialchars($testimonial['position']); ?></td>
                                     <td><?php echo htmlspecialchars(substr($testimonial['content'], 0, 100)) . '...'; ?></td>
@@ -604,7 +667,7 @@ if ($action === 'edit' && $testimonialId > 0) {
                     <div class="form-group">
                         <label for="position">Position/Title</label>
                         <input type="text" id="position" name="position" value="<?php echo $action === 'edit' ? htmlspecialchars($testimonialData['position']) : ''; ?>" required>
-                        <small class="text-muted">E.g., Patient, Mother of two, Business Owner</small>
+                        <small class="text-muted">E.g., Patient, Mother of two, Family Member</small>
                     </div>
                     
                     <div class="form-group">
@@ -617,9 +680,9 @@ if ($action === 'edit' && $testimonialId > 0) {
                         <input type="file" id="client_photo" name="client_photo" accept="image/*">
                         <small class="text-muted">Upload a photo (JPG, PNG, GIF). Max size: 5MB.</small>
                         <?php if ($action === 'edit' && !empty($testimonialData['photo_path'])): ?>
-                            <div class="mt-2">
+                            <div class="current-image">
                                 <p>Current photo:</p>
-                                <img src="<?php echo htmlspecialchars($testimonialData['photo_path']); ?>" alt="Client photo" style="max-width: 100px; max-height: 100px;">
+                                <img src="../<?php echo htmlspecialchars($testimonialData['photo_path']); ?>" alt="Client photo">
                             </div>
                         <?php endif; ?>
                     </div>
@@ -632,6 +695,12 @@ if ($action === 'edit' && $testimonialId > 0) {
                                 <label for="star<?php echo $i; ?>"><i class="fas fa-star"></i></label>
                             <?php endfor; ?>
                         </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="display_order">Display Order</label>
+                        <input type="number" id="display_order" name="display_order" value="<?php echo $action === 'edit' ? htmlspecialchars($testimonialData['display_order']) : '0'; ?>" min="0">
+                        <small class="text-muted">Lower numbers appear first. Use 0 for automatic ordering.</small>
                     </div>
                     
                     <div class="form-group">
@@ -672,6 +741,18 @@ if ($action === 'edit' && $testimonialId > 0) {
                 window.location.href = `testimonials.php?action=delete&id=${id}`;
             }
         }
+
+        // Star rating
+        const stars = document.querySelectorAll('.rating-input label');
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.2)';
+            });
+            
+            star.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
     </script>
 </body>
 </html>
