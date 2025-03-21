@@ -10,37 +10,82 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
-// Placeholder for team functionality
+require_once 'includes/Team.php';
+require_once '../includes/Database.php';
+
+$db = Database::getInstance();
+$team = new Team($db->getConnection());
 $message = '';
 $messageType = '';
 
-// Sample team members for demonstration
-$teamMembers = [
-    [
-        'id' => 1,
-        'name' => 'Dr. John Smith',
-        'position' => 'General Physician',
-        'bio' => 'Dr. Smith has over 15 years of experience in general medicine and primary care.',
-        'image' => 'fa-user-md',
-        'is_active' => 1
-    ],
-    [
-        'id' => 2,
-        'name' => 'Dr. Sarah Johnson',
-        'position' => 'Pediatrician',
-        'bio' => 'Dr. Johnson specializes in pediatric care with a focus on early childhood development.',
-        'image' => 'fa-user-md',
-        'is_active' => 1
-    ],
-    [
-        'id' => 3,
-        'name' => 'Dr. Michael Patel',
-        'position' => 'Cardiologist',
-        'bio' => 'Dr. Patel is a board-certified cardiologist with expertise in heart disease prevention.',
-        'image' => 'fa-user-md',
-        'is_active' => 1
-    ]
-];
+// Handle form submissions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    
+    if ($action === 'add' || $action === 'edit') {
+        $data = [
+            'name' => $_POST['name'],
+            'position' => $_POST['position'],
+            'bio' => $_POST['bio'],
+            'specialties' => $_POST['specialties'],
+            'qualifications' => $_POST['qualifications'],
+            'is_active' => $_POST['status'] === 'active',
+            'display_order' => intval($_POST['display_order'] ?? 0)
+        ];
+
+        // Handle photo upload
+        if (!empty($_FILES['member_photo']['name'])) {
+            $targetDir = "../uploads/team/";
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            $fileExtension = strtolower(pathinfo($_FILES['member_photo']['name'], PATHINFO_EXTENSION));
+            $fileName = uniqid('team_') . '.' . $fileExtension;
+            $targetPath = $targetDir . $fileName;
+
+            if (move_uploaded_file($_FILES['member_photo']['tmp_name'], $targetPath)) {
+                $data['photo_path'] = 'uploads/team/' . $fileName;
+            } else {
+                $message = "Failed to upload photo.";
+                $messageType = 'error';
+            }
+        }
+
+        if ($action === 'add') {
+            if ($team->createMember($data)) {
+                $message = "Team member added successfully.";
+                $messageType = 'success';
+            } else {
+                $message = "Failed to add team member.";
+                $messageType = 'error';
+            }
+        } else {
+            $id = $_POST['id'];
+            if ($team->updateMember($id, $data)) {
+                $message = "Team member updated successfully.";
+                $messageType = 'success';
+            } else {
+                $message = "Failed to update team member.";
+                $messageType = 'error';
+            }
+        }
+    }
+}
+
+// Handle delete action
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+    if ($team->deleteMember($_GET['id'])) {
+        $message = "Team member deleted successfully.";
+        $messageType = 'success';
+    } else {
+        $message = "Failed to delete team member.";
+        $messageType = 'error';
+    }
+}
+
+// Get all team members
+$teamMembers = $team->getAllActiveMembers();
 
 // Determine if we're adding, editing, or listing team members
 $action = isset($_GET['action']) ? $_GET['action'] : 'list';
@@ -49,14 +94,9 @@ $memberId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 // Get team member data for editing
 $memberData = [];
 if ($action === 'edit' && $memberId > 0) {
-    foreach ($teamMembers as $member) {
-        if ($member['id'] === $memberId) {
-            $memberData = $member;
-            break;
-        }
-    }
+    $memberData = $team->getMemberById($memberId);
     
-    if (empty($memberData)) {
+    if (!$memberData) {
         $message = 'Team member not found!';
         $messageType = 'error';
         $action = 'list';
@@ -603,6 +643,12 @@ if ($action === 'edit' && $memberId > 0) {
                         <small class="text-muted">Degrees and certifications (e.g., MD, MBBS, PhD)</small>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="display_order">Display Order</label>
+                        <input type="number" id="display_order" name="display_order" min="0" value="<?php echo $action === 'edit' && isset($memberData['display_order']) ? htmlspecialchars($memberData['display_order']) : '0'; ?>">
+                        <small class="text-muted">Lower numbers appear first. Leave as 0 for default ordering.</small>
+                    </div>
+
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select id="status" name="status" required>

@@ -1,4 +1,12 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+include 'includes/header.php';
+require_once 'includes/Database.php';
+require_once 'admin/includes/Team.php';
+
+$db = Database::getInstance();
+$team = new Team($db->getConnection());
+$teamMembers = $team->getAllActiveMembers();
+?>
 
 <!-- Hero Banner -->
 <section class="page-hero about-hero" data-aos="fade-up">
@@ -80,39 +88,36 @@
         <p class="section-subtitle">Dedicated professionals committed to your care</p>
         
         <div class="team-grid">
-            <!-- Team Member 1 -->
-            <div class="team-member">
-                <div class="member-image">
-                    <img src="https://via.placeholder.com/300x400.jpg?text=Dr.+Anish+Sharma" alt="Dr. Anish Sharma" loading="lazy">
-                </div>
-                <div class="member-info">
-                    <h3>Dr. Anish Sharma</h3>
-                    <p class="member-role">Founder & Medical Director</p>
-                    <p class="member-bio">With over 15 years of experience in healthcare, Dr. Sharma leads our team with expertise and compassion.</p>
-                </div>
-            </div>
-            <!-- Team Member 2 -->
-            <div class="team-member">
-                <div class="member-image">
-                    <img src="https://via.placeholder.com/300x400.jpg?text=Dr.+Priya+Patel" alt="Dr. Priya Patel" loading="lazy">
-                </div>
-                <div class="member-info">
-                    <h3>Dr. Priya Patel</h3>
-                    <p class="member-role">Chief Medical Officer</p>
-                    <p class="member-bio">Specializing in geriatric care, Dr. Patel ensures the highest standards of medical care.</p>
-                </div>
-            </div>
-            <!-- Team Member 3 -->
-            <div class="team-member">
-                <div class="member-image">
-                    <img src="https://via.placeholder.com/300x400.jpg?text=Dr.+Rajesh+Thapa" alt="Dr. Rajesh Thapa" loading="lazy">
-                </div>
-                <div class="member-info">
-                    <h3>Dr. Rajesh Thapa</h3>
-                    <p class="member-role">Head of Medical Services</p>
-                    <p class="member-bio">Leading our medical team with dedication and expertise in home healthcare.</p>
-                </div>
-            </div>
+            <?php if (empty($teamMembers)): ?>
+                <p class="text-center">No team members found.</p>
+            <?php else: ?>
+                <?php foreach ($teamMembers as $member): ?>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <?php if ($member['photo_path']): ?>
+                                <img src="<?php echo htmlspecialchars($member['photo_path']); ?>" 
+                                     alt="<?php echo htmlspecialchars($member['name']); ?>" 
+                                     loading="lazy">
+                            <?php else: ?>
+                                <img src="https://via.placeholder.com/300x400.jpg?text=<?php echo urlencode($member['name']); ?>" 
+                                     alt="<?php echo htmlspecialchars($member['name']); ?>" 
+                                     loading="lazy">
+                            <?php endif; ?>
+                        </div>
+                        <div class="member-info">
+                            <h3><?php echo htmlspecialchars($member['name']); ?></h3>
+                            <p class="member-role"><?php echo htmlspecialchars($member['position']); ?></p>
+                            <?php if ($member['qualifications']): ?>
+                                <p class="member-qualifications"><?php echo htmlspecialchars($member['qualifications']); ?></p>
+                            <?php endif; ?>
+                            <p class="member-bio"><?php echo htmlspecialchars($member['bio']); ?></p>
+                            <?php if ($member['specialties']): ?>
+                                <p class="member-specialties">Specialties: <?php echo htmlspecialchars($member['specialties']); ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </section>
