@@ -9,7 +9,8 @@ class Team {
     public function getAllActiveMembers() {
         $sql = "SELECT * FROM team_members WHERE is_active = 1 ORDER BY display_order ASC";
         try {
-            $stmt = $this->db->query($sql);
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error fetching team members: " . $e->getMessage());
@@ -34,7 +35,7 @@ class Team {
                 VALUES (:name, :position, :bio, :photo_path, :specialties, :qualifications, :is_active, :display_order)";
         try {
             $stmt = $this->db->prepare($sql);
-            return $stmt->execute([
+            $params = [
                 'name' => $data['name'],
                 'position' => $data['position'],
                 'bio' => $data['bio'],
@@ -43,7 +44,9 @@ class Team {
                 'qualifications' => $data['qualifications'] ?? null,
                 'is_active' => $data['is_active'] ? 1 : 0,
                 'display_order' => $data['display_order'] ?? 0
-            ]);
+            ];
+            $stmt->execute($params);
+            return true;
         } catch (PDOException $e) {
             error_log("Error creating team member: " . $e->getMessage());
             return false;
@@ -83,7 +86,8 @@ class Team {
                 $params['photo_path'] = $data['photo_path'];
             }
 
-            return $stmt->execute($params);
+            $stmt->execute($params);
+            return true;
         } catch (PDOException $e) {
             error_log("Error updating team member: " . $e->getMessage());
             return false;
@@ -94,7 +98,8 @@ class Team {
         $sql = "DELETE FROM team_members WHERE id = :id";
         try {
             $stmt = $this->db->prepare($sql);
-            return $stmt->execute(['id' => $id]);
+            $stmt->execute(['id' => $id]);
+            return true;
         } catch (PDOException $e) {
             error_log("Error deleting team member: " . $e->getMessage());
             return false;

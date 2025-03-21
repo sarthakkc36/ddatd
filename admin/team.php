@@ -14,7 +14,8 @@ require_once 'includes/Team.php';
 require_once '../includes/Database.php';
 
 $db = Database::getInstance();
-$team = new Team($db->getConnection());
+$pdo = $db->getConnection();
+$team = new Team($pdo);
 $message = '';
 $messageType = '';
 
@@ -45,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $targetPath = $targetDir . $fileName;
 
             if (move_uploaded_file($_FILES['member_photo']['tmp_name'], $targetPath)) {
-                $data['photo_path'] = 'uploads/team/' . $fileName;
+                $data['photo_path'] = '../uploads/team/' . $fileName;
             } else {
                 $message = "Failed to upload photo.";
                 $messageType = 'error';
@@ -567,9 +568,15 @@ if ($action === 'edit' && $memberId > 0) {
                             <?php foreach ($teamMembers as $member): ?>
                                 <tr>
                                     <td>
-                                        <div class="member-avatar">
-                                            <i class="fas <?php echo htmlspecialchars($member['image']); ?>"></i>
-                                        </div>
+                                        <?php if ($member['photo_path']): ?>
+                                            <img src="<?php echo htmlspecialchars($member['photo_path']); ?>" 
+                                                 alt="<?php echo htmlspecialchars($member['name']); ?>"
+                                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                                        <?php else: ?>
+                                            <div class="member-avatar">
+                                                <i class="fas fa-user-md"></i>
+                                            </div>
+                                        <?php endif; ?>
                                     </td>
                                     <td><?php echo htmlspecialchars($member['name']); ?></td>
                                     <td><?php echo htmlspecialchars($member['position']); ?></td>

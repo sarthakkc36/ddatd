@@ -4,7 +4,8 @@ require_once 'includes/Database.php';
 require_once 'admin/includes/Team.php';
 
 $db = Database::getInstance();
-$team = new Team($db->getConnection());
+$pdo = $db->getConnection();
+$team = new Team($pdo);
 $teamMembers = $team->getAllActiveMembers();
 ?>
 
@@ -96,6 +97,7 @@ $teamMembers = $team->getAllActiveMembers();
                         <div class="member-image">
                             <?php if ($member['photo_path']): ?>
                                 <img src="<?php echo htmlspecialchars($member['photo_path']); ?>" 
+                                     style="width: 100%; height: auto; object-fit: cover; border-radius: 8px;"
                                      alt="<?php echo htmlspecialchars($member['name']); ?>" 
                                      loading="lazy">
                             <?php else: ?>
