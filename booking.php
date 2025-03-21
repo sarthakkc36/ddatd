@@ -170,7 +170,7 @@
                         <p>Contact our medical coordinators for assistance:</p>
                         <a href="tel:+97701456789" class="contact-phone">
                             <i class="fas fa-phone"></i>
-                            +977 (01) 456-7890
+                            +977 986-0102404
                         </a>
                         <p class="availability">Available Monday - Friday, 9:00 AM - 6:00 PM</p>
                     </div>

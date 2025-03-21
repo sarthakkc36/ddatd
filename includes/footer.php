@@ -31,9 +31,9 @@
                 <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
                     <h3>Contact Us</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-phone"></i> +977 (01) 456-7890</li>
-                        <li><i class="fas fa-envelope"></i> info@doctorsatdoorstep.com</li>
-                        <li><i class="fas fa-location-dot"></i> 123 Medical Street,<br>Kathmandu, Nepal</li>
+                        <li><i class="fas fa-phone"></i> +977 986-0102404</li>
+                        <li><i class="fas fa-envelope"></i> doctorsatdoorstep@gmail.com</li>
+                        <li><i class="fas fa-location-dot"></i> khursanitar marg,<br>Kathmandu, Nepal</li>
                     </ul>
                 </div>
 
