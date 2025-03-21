@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $targetPath = $targetDir . $fileName;
 
             if (move_uploaded_file($_FILES['member_photo']['tmp_name'], $targetPath)) {
-                $data['photo_path'] = '/ddatd/uploads/team/' . $fileName;
+                $data['photo_path'] = 'uploads/team/' . $fileName;
             } else {
                 $message = "Failed to upload photo.";
                 $messageType = 'error';
@@ -633,7 +633,7 @@ if ($action === 'edit' && $memberId > 0) {
                         <?php if ($action === 'edit' && !empty($memberData['photo_path'])): ?>
                             <div class="mt-2">
                                 <p>Current photo:</p>
-                                <img src="<?php echo htmlspecialchars('/' . $memberData['photo_path']); ?>" alt="Member photo" style="max-width: 100px; max-height: 100px;">
+                                <img src="<?php echo htmlspecialchars('../' . $memberData['photo_path']); ?>" alt="Member photo" style="max-width: 100px; max-height: 100px;">
                             </div>
                         <?php endif; ?>
                     </div>

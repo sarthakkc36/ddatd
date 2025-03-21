@@ -96,8 +96,7 @@ $teamMembers = $team->getAllActiveMembers();
                     <div class="team-member">
                         <div class="member-image">
                             <?php if ($member['photo_path']): ?>
-                                <!-- Debug: <?php var_dump($member['photo_path']); ?> -->
-                                <img src="/ddatd/<?php echo $member['photo_path']; ?>" 
+                                <img src="<?php echo htmlspecialchars('../ddatd/' . $member['photo_path']); ?>" 
                                      style="width: 100%; height: auto; object-fit: cover; border-radius: 8px;"
                                      alt="<?php echo htmlspecialchars($member['name']); ?>" 
                                      loading="lazy">
