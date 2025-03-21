@@ -97,10 +97,7 @@ $teamMembers = $team->getAllActiveMembers();
                         <div class="member-image">
                             <?php if ($member['photo_path']): ?>
                                 <?php error_log("Image path: " . $member['photo_path']); ?>
-                                <img src="<?php echo htmlspecialchars('/ddatd/' . $member['photo_path']); ?>" 
-                                     style="width: 100%; height: auto; object-fit: cover; border-radius: 8px;"
-                                     alt="<?php echo htmlspecialchars($member['name']); ?>" 
-                                     loading="lazy">
+                                <img src="<?php echo htmlspecialchars($member['photo_path']); ?>" ...>
                             <?php else: ?>
                                 <img src="https://via.placeholder.com/300x400.jpg?text=<?php echo urlencode($member['name']); ?>" 
                                      alt="<?php echo htmlspecialchars($member['name']); ?>" 
