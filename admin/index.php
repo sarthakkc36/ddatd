@@ -157,7 +157,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h1>Doctors At Door Step</h1>
+            <h1>                <img src="../images/logo.png" alt="Doctors At Door Step"width="100px" height="100px"  />
+            </h1>
             <p>Admin Panel Login</p>
         </div>
         

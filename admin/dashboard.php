@@ -19,7 +19,8 @@ $recent_activity = get_recent_activity(5);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Doctors At Door Step</title>
+    <title>                <img src="images/logo.png" alt="Doctors At Door Step"width="90px" height="80px"  />
+    </title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -342,7 +343,8 @@ $recent_activity = get_recent_activity(5);
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h1>Doctors At Door Step</h1>
+            <h1>                <img src="../images/logo.png" alt="Doctors At Door Step"width="100px" height="100px"  />
+            </h1>
             <p>Admin Panel</p>
         </div>
         

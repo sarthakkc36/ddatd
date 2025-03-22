@@ -31,9 +31,9 @@
                 <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
                     <h3>Contact Us</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-phone"></i> +977 986-0102404</li>
-                        <li><i class="fas fa-envelope"></i> doctorsatdoorstep@gmail.com</li>
-                        <li><i class="fas fa-location-dot"></i> khursanitar marg,<br>Kathmandu, Nepal</li>
+                        <li><i class="fas fa-phone"></i> <?php echo htmlspecialchars($settingsHandler->get('contact_phone', '+977 986-0102404')); ?></li>
+                        <li><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($settingsHandler->get('contact_email', 'doctorsatdoorstep@gmail.com')); ?></li>
+                        <li><i class="fas fa-location-dot"></i> <?php echo htmlspecialchars($settingsHandler->get('address', 'khursanitar marg, Kathmandu, Nepal')); ?></li>
                     </ul>
                 </div>
 
@@ -47,16 +47,40 @@
                     </form>
                     <!-- Social Media Icons -->
                     <div class="social-icons">
-                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <?php
+                        // Get social media links from settings
+                        $facebook = $settingsHandler->get('facebook', '');
+                        $twitter = $settingsHandler->get('twitter', '');
+                        $instagram = $settingsHandler->get('instagram', '');
+                        $linkedin = $settingsHandler->get('linkedin', '');
+                        $youtube = $settingsHandler->get('youtube', '');
+                        
+                        if (!empty($facebook)): 
+                        ?>
+                        <a href="<?php echo htmlspecialchars($facebook); ?>" class="social-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <?php endif; 
+                        if (!empty($twitter)): 
+                        ?>
+                        <a href="<?php echo htmlspecialchars($twitter); ?>" class="social-icon" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <?php endif; 
+                        if (!empty($instagram)): 
+                        ?>
+                        <a href="<?php echo htmlspecialchars($instagram); ?>" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <?php endif; 
+                        if (!empty($linkedin)): 
+                        ?>
+                        <a href="<?php echo htmlspecialchars($linkedin); ?>" class="social-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <?php endif; 
+                        if (!empty($youtube)): 
+                        ?>
+                        <a href="<?php echo htmlspecialchars($youtube); ?>" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Doctors At Door Step. All rights reserved.</p>
+                <p>&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($settingsHandler->get('site_name', 'Doctors At Door Step')); ?>. All rights reserved.</p>
             </div>
         </div>
     </footer>

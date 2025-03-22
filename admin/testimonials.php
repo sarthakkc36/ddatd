@@ -524,7 +524,8 @@ $testimonials = $testimonialHandler->getAllTestimonials();
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h1>HomeCare</h1>
+        <h1>                <img src="../images/logo.png" alt="Doctors At Door Step"width="100px" height="100px"  />
+        </h1>
             <p>Admin Panel</p>
         </div>
         
