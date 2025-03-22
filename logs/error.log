@@ -1,19 +1,32 @@
-[2025-03-19 17:59:25] Failed admin login attempt for username: admin
-[2025-03-19 17:59:29] Failed admin login attempt for username: admin
-[2025-03-19 18:00:48] Failed admin login attempt for username: admin
-[2025-03-19 18:00:53] Failed admin login attempt for username: admin
-[2025-03-19 18:04:23] Failed admin login attempt for username: admin
-[2025-03-19 18:08:35] Failed admin login attempt for username: admin
-[2025-03-19 18:09:41] Failed admin login attempt for username: admin
-[2025-03-19 18:15:19] Failed admin login attempt for username: admin
-[2025-03-19 18:15:41] Failed admin login attempt for username: admin
-[2025-03-19 18:15:46] Failed admin login attempt for username: admin
-[2025-03-19 18:16:48] Admin login successful: admin
-[2025-03-21 17:34:52] Failed admin login attempt for username: admin
-[2025-03-22 12:13:05] Failed admin login attempt for username: admin
-[2025-03-22 12:13:14] Failed admin login attempt for username: admin
-[2025-03-22 12:13:18] Failed admin login attempt for username: admin
-[2025-03-22 12:14:09] Failed admin login attempt for username: admin
-[2025-03-22 12:14:13] Failed admin login attempt for username: admin
-[2025-03-22 12:14:26] Failed admin login attempt for username: admin
-[2025-03-22 12:14:41] Failed admin login attempt for username: admin
+[2025-03-22 13:31:21] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''3'' at line 8 - SQL: SELECT DISTINCT p.* FROM blog_posts p
+            JOIN post_categories pc ON p.id = pc.post_id
+            WHERE pc.category_id IN (?,?)
+            AND p.id != ?
+            AND p.status = 'published'
+            AND p.published_at <= NOW()
+            ORDER BY p.published_at DESC
+            LIMIT ?
+[2025-03-22 13:31:21] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''3'' at line 8 - SQL: SELECT DISTINCT p.* FROM blog_posts p
+            JOIN post_categories pc ON p.id = pc.post_id
+            WHERE pc.category_id IN (?,?)
+            AND p.id != ?
+            AND p.status = 'published'
+            AND p.published_at <= NOW()
+            ORDER BY p.published_at DESC
+            LIMIT ?
+[2025-03-22 13:31:39] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 4 - SQL: SELECT * FROM blog_posts 
+            WHERE status = 'published' AND published_at <= NOW() 
+            ORDER BY published_at DESC 
+            LIMIT ?
+[2025-03-22 13:31:39] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 4 - SQL: SELECT * FROM blog_posts 
+            WHERE status = 'published' AND published_at <= NOW() 
+            ORDER BY published_at DESC 
+            LIMIT ?
+[2025-03-22 13:31:50] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''3'' at line 8 - SQL: SELECT DISTINCT p.* FROM blog_posts p
+            JOIN post_categories pc ON p.id = pc.post_id
+            WHERE pc.category_id IN (?,?)
+            AND p.id != ?
+            AND p.status = 'published'
+            AND p.published_at <= NOW()
+            ORDER BY p.published_at DESC
+            LIMIT ?
