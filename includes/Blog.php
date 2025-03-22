@@ -1,6 +1,8 @@
 <?php
 require_once 'Database.php';
-
+// Add this at the top of blog.php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 class Blog {
     private $db;
 

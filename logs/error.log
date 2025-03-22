@@ -30,3 +30,19 @@
             AND p.published_at <= NOW()
             ORDER BY p.published_at DESC
             LIMIT ?
+[2025-03-22 13:33:31] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 4 - SQL: SELECT * FROM blog_posts 
+            WHERE status = 'published' AND published_at <= NOW() 
+            ORDER BY published_at DESC 
+            LIMIT ?
+[2025-03-22 13:33:44] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 4 - SQL: SELECT * FROM blog_posts 
+            WHERE status = 'published' AND published_at <= NOW() 
+            ORDER BY published_at DESC 
+            LIMIT ?
+[2025-03-22 13:34:05] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 4 - SQL: SELECT * FROM blog_posts 
+            WHERE status = 'published' AND published_at <= NOW() 
+            ORDER BY published_at DESC 
+            LIMIT ?
+[2025-03-22 13:35:12] Database query failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''5'' at line 4 - SQL: SELECT * FROM blog_posts 
+            WHERE status = 'published' AND published_at <= NOW() 
+            ORDER BY published_at DESC 
+            LIMIT ?

@@ -31,38 +31,70 @@ class Database {
     public function query($sql, $params = []) {
         try {
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute($params);
+            
+            // Added debugging - comment this out in production
+            /*
+            echo "<pre>";
+            echo "SQL: " . $sql . "\n";
+            echo "Params: ";
+            print_r($params);
+            echo "</pre>";
+            */
+            
+            // Fix for potential issue with numeric array keys in parameters
+            if (is_array($params) && !empty($params)) {
+                if (array_keys($params) === range(0, count($params) - 1)) {
+                    // Sequential array - use positional parameters
+                    $stmt->execute($params);
+                } else {
+                    // Associative array - bind each parameter separately
+                    foreach ($params as $key => $value) {
+                        // If the key is numeric, convert it to a positional parameter
+                        if (is_numeric($key)) {
+                            $stmt->bindValue($key + 1, $value);
+                        } else {
+                            $stmt->bindValue(':' . $key, $value);
+                        }
+                    }
+                    $stmt->execute();
+                }
+            } else {
+                $stmt->execute();
+            }
+            
             return $stmt;
         } catch(PDOException $e) {
-            die("Query failed: " . $e->getMessage());
+            // Log the error with specifics
+            error_log("Database query error: " . $e->getMessage());
+            error_log("SQL: " . $sql);
+            error_log("Params: " . print_r($params, true));
+            
+            // Throw the exception to be handled by the calling code
+            throw $e;
         }
     }
 
     public function select($sql, $params = []) {
         try {
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute($params);
-            return $stmt->fetchAll();
+            return $this->query($sql, $params)->fetchAll();
         } catch(PDOException $e) {
-            // Log the error
-            log_error("Database query failed: " . $e->getMessage() . " - SQL: " . $sql);
-            
-            // Only show detailed errors if in admin area or if explicitly debugging
-            $isAdmin = strpos($_SERVER['REQUEST_URI'], '/admin/') !== false;
-            if (defined('DEBUG_MODE') && DEBUG_MODE && $isAdmin) {
-                echo "<pre>";
-                echo "Error in SQL query: " . $e->getMessage() . "\n";
-                echo "SQL: " . $sql . "\n";
-                echo "Parameters: ";
-                print_r($params);
-                echo "</pre>";
-            }
-            
-            throw $e;
+            // Use a more graceful error handling approach
+            error_log("SELECT query error: " . $e->getMessage());
+            error_log("SQL: " . $sql);
+            // Return empty array instead of crashing
+            return [];
         }
     }
+
     public function selectOne($sql, $params = []) {
-        return $this->query($sql, $params)->fetch();
+        try {
+            $result = $this->query($sql, $params)->fetch();
+            return $result !== false ? $result : null;
+        } catch(PDOException $e) {
+            error_log("SELECT ONE query error: " . $e->getMessage());
+            error_log("SQL: " . $sql);
+            return null;
+        }
     }
 
     public function insert($table, $data) {
@@ -72,29 +104,58 @@ class Database {
         $sql = "INSERT INTO $table (" . implode(", ", $fields) . ") 
                 VALUES (" . implode(", ", $placeholders) . ")";
         
-        $this->query($sql, $data);
-        return $this->conn->lastInsertId();
+        try {
+            $this->query($sql, $data);
+            return $this->conn->lastInsertId();
+        } catch(PDOException $e) {
+            error_log("INSERT query error: " . $e->getMessage());
+            error_log("Table: " . $table);
+            return false;
+        }
     }
 
     public function update($table, $data, $where, $whereParams = []) {
-        $setParts = array_map(function($field) { return "$field = :$field"; }, array_keys($data));
-        
-        // Convert positional where parameters to named parameters
-        $whereConditions = $where;
-        foreach ($whereParams as $index => $value) {
-            $paramName = ":where_param_$index";
-            $whereConditions = preg_replace('/\?/', $paramName, $whereConditions, 1);
-            $whereParams[$paramName] = $value;
-            unset($whereParams[$index]);
+        try {
+            $setParts = [];
+            $params = [];
+            
+            // Handle special case for expressions like "views + 1"
+            foreach ($data as $field => $value) {
+                if (is_array($value) && isset($value['expr'])) {
+                    $setParts[] = "$field = " . $value['expr'];
+                } else {
+                    $setParts[] = "$field = :$field";
+                    $params[$field] = $value;
+                }
+            }
+            
+            // Convert positional where parameters to named parameters
+            $whereConditions = $where;
+            foreach ($whereParams as $index => $value) {
+                $paramName = ":where_param_$index";
+                $whereConditions = preg_replace('/\?/', $paramName, $whereConditions, 1);
+                $params[$paramName] = $value;
+            }
+            
+            $sql = "UPDATE $table SET " . implode(", ", $setParts) . " WHERE $whereConditions";
+            $this->query($sql, $params);
+            return true;
+        } catch(PDOException $e) {
+            error_log("UPDATE query error: " . $e->getMessage());
+            error_log("Table: " . $table);
+            return false;
         }
-        
-        $sql = "UPDATE $table SET " . implode(", ", $setParts) . " WHERE $whereConditions";
-        $params = array_merge($data, $whereParams);
-        $this->query($sql, $params);
     }
 
     public function delete($table, $where, $params = []) {
-        $sql = "DELETE FROM $table WHERE $where";
-        $this->query($sql, $params);
+        try {
+            $sql = "DELETE FROM $table WHERE $where";
+            $this->query($sql, $params);
+            return true;
+        } catch(PDOException $e) {
+            error_log("DELETE query error: " . $e->getMessage());
+            error_log("Table: " . $table);
+            return false;
+        }
     }
 }
