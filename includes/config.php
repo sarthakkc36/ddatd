@@ -12,8 +12,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Debug mode (set to false in production)
-define('DEBUG_MODE', true);
+
+// Make sure DEBUG_MODE is set to false for production
+define('DEBUG_MODE', false);
+
 
 if (DEBUG_MODE) {
     ini_set('display_errors', 1);

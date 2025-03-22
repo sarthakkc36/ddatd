@@ -39,9 +39,28 @@ class Database {
     }
 
     public function select($sql, $params = []) {
-        return $this->query($sql, $params)->fetchAll();
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll();
+        } catch(PDOException $e) {
+            // Log the error
+            log_error("Database query failed: " . $e->getMessage() . " - SQL: " . $sql);
+            
+            // Only show detailed errors if in admin area or if explicitly debugging
+            $isAdmin = strpos($_SERVER['REQUEST_URI'], '/admin/') !== false;
+            if (defined('DEBUG_MODE') && DEBUG_MODE && $isAdmin) {
+                echo "<pre>";
+                echo "Error in SQL query: " . $e->getMessage() . "\n";
+                echo "SQL: " . $sql . "\n";
+                echo "Parameters: ";
+                print_r($params);
+                echo "</pre>";
+            }
+            
+            throw $e;
+        }
     }
-
     public function selectOne($sql, $params = []) {
         return $this->query($sql, $params)->fetch();
     }

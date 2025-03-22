@@ -14,15 +14,17 @@ class Blog {
     public function getPosts($page = 1, $per_page = 10) {
         $offset = ($page - 1) * $per_page;
         
+        // Cast to integers to ensure they're not treated as strings
+        $per_page = (int)$per_page;
+        $offset = (int)$offset;
+        
         return $this->db->select(
             "SELECT * FROM blog_posts 
             WHERE status = 'published' AND published_at <= NOW() 
             ORDER BY published_at DESC 
-            LIMIT ? OFFSET ?",
-            [$per_page, $offset]
+            LIMIT $per_page OFFSET $offset"
         );
     }
-
     /**
      * Count total published posts
      */
@@ -777,6 +779,8 @@ class Blog {
      */
     public function getAdminPosts($search = '', $status = '', $category = 0, $page = 1, $per_page = 10) {
         $offset = ($page - 1) * $per_page;
+        $per_page = (int)$per_page;
+        $offset = (int)$offset;
         
         $sql = "SELECT DISTINCT p.* FROM blog_posts p";
         $params = [];
@@ -807,9 +811,8 @@ class Blog {
             $params[] = $category;
         }
         
-        $sql .= " ORDER BY p.created_at DESC LIMIT ? OFFSET ?";
-        $params[] = $per_page;
-        $params[] = $offset;
+        // Use the actual integers in the query, not as parameters
+        $sql .= " ORDER BY p.created_at DESC LIMIT $per_page OFFSET $offset";
         
         return $this->db->select($sql, $params);
     }

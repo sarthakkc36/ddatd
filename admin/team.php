@@ -501,6 +501,15 @@ if ($action === 'edit' && $memberId > 0) {
             <a href="testimonials.php" class="menu-item">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
+            <a href="blog-management.php" class="menu-item">
+                <i class="fas fa-blog"></i> Blog
+            </a>
+            <a href="blog-categories.php" class="menu-item">
+                <i class="fas fa-folder"></i> Blog Categories
+            </a>
+            <a href="blog-tags.php" class="menu-item">
+                <i class="fas fa-tags"></i> Blog Tags
+            </a>
 
             <a href="inquiries.php" class="menu-item">
                 <i class="fas fa-envelope"></i> Inquiries
