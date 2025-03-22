@@ -1,4 +1,5 @@
 <?php
+define('ALLOWED_ACCESS', true);
 include 'includes/header.php';
 require_once 'includes/Blog.php';
 
@@ -127,11 +128,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
                 <?php if ($author): ?>
                     <div class="post-author">
                         <div class="author-avatar">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user-md"></i>
                         </div>
                         <div class="author-info">
                             <h3><?php echo htmlspecialchars($author['username']); ?></h3>
-                            <p>Author</p>
+                            <p>Medical Professional</p>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -162,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
 
                 <!-- Comments Section -->
                 <?php if ($comments_enabled): ?>
-                    <div class="comments-section">
+                    <div class="comments-section" id="comments">
                         <h2>Comments (<?php echo count($comments); ?>)</h2>
                         
                         <?php if (!empty($comments)): ?>
@@ -247,7 +248,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
                             </div>
                         <?php else: ?>
                             <div class="no-comments">
-                                <p>No comments yet. Be the first to comment!</p>
+                                <p>Be the first to comment on this article!</p>
                             </div>
                         <?php endif; ?>
                         
@@ -305,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
                 <!-- Related Posts -->
                 <?php if (!empty($related_posts)): ?>
                     <div class="sidebar-widget related-posts-widget">
-                        <h3>Related Posts</h3>
+                        <h3>Related Articles</h3>
                         <ul class="related-posts">
                             <?php foreach ($related_posts as $related): ?>
                                 <li>
@@ -361,12 +362,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     </div>
 </section>
 
-<!-- CTA Section -->
+<!-- Healthcare CTA Section -->
 <section class="blog-cta" data-aos="fade-up">
     <div class="container">
         <div class="cta-content">
-            <h2>Need Professional Healthcare Services?</h2>
-            <p>Our team of qualified doctors and healthcare professionals is ready to provide personalized care at your doorstep.</p>
+            <h2>Need Professional Healthcare at Home?</h2>
+            <p>Our experienced doctors and healthcare professionals are ready to provide personalized care right at your doorstep.</p>
             <div class="cta-buttons">
                 <a href="booking.php" class="btn btn-primary">Book an Appointment</a>
                 <a href="contact.php" class="btn btn-outline">Contact Us</a>
@@ -375,7 +376,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
     </div>
 </section>
 
-<!-- JavaScript for reply functionality -->
+<!-- JavaScript for comment reply functionality -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Handle reply button clicks
@@ -410,4 +411,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php include 'includes/footer.php'; ?>
+<!-- Footer -->
+ <?php include 'footer.php'; ?>

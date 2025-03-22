@@ -370,6 +370,15 @@ $recent_activity = get_recent_activity(5);
             <a href="settings.php" class="menu-item">
                 <i class="fas fa-cog"></i> Settings
             </a>
+            <a href="blog-management.php" class="menu-item">
+                <i class="fas fa-blog"></i> Blog
+            </a>
+            <a href="blog-categories.php" class="menu-item">
+                <i class="fas fa-folder"></i> Blog Categories
+            </a>
+            <a href="blog-tags.php" class="menu-item">
+                <i class="fas fa-tags"></i> Blog Tags
+            </a>
         </div>
         
         <div class="sidebar-footer">
@@ -461,7 +470,13 @@ $recent_activity = get_recent_activity(5);
                         <p>Add a new doctor or staff</p>
                     </a>
                 </div>
-                
+                <div class="action-card">
+                    <a href="blog-edit.php?action=add">
+                        <i class="fas fa-pen-fancy"></i>
+                        <h4>Write Blog Post</h4>
+                        <p>Create a new blog article</p>
+                    </a>
+                </div>
                 <div class="action-card">
                     <a href="testimonials.php?action=add">
                         <i class="fas fa-comment-medical"></i>

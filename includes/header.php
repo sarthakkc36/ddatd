@@ -99,6 +99,7 @@ date_default_timezone_set($timezone);
                     <li><a href="services.php" class="nav-link">Services</a></li>
                     <li><a href="pricing.php" class="nav-link">Pricing</a></li>
                     <li><a href="faq.php" class="nav-link">FAQ</a></li>
+                    <li><a href="blog.php" class="nav-link">Blog</a></li>
                     <li><a href="contact.php" class="nav-link">Contact</a></li>
                     <li><a href="booking.php" class="nav-link cta-button">Book Now</a></li>
                 </ul>

@@ -1,4 +1,5 @@
 <?php
+define('ALLOWED_ACCESS', true);
 include 'includes/header.php';
 require_once 'includes/Blog.php';
 
@@ -32,7 +33,7 @@ if ($category_slug) {
 } else {
     $posts = $blogHandler->getPosts($page, $per_page);
     $total_posts = $blogHandler->countPosts();
-    $page_title = "Blog";
+    $page_title = "Health & Wellness Blog";
 }
 
 // Calculate total pages for pagination
@@ -46,14 +47,14 @@ $tags = $blogHandler->getTags();
 $recent_posts = $blogHandler->getRecentPosts(5);
 ?>
 
-<!-- Hero Banner -->
+<!-- Page Hero Section -->
 <section class="page-hero blog-hero" data-aos="fade-up">
     <div class="container">
         <h1><?php echo $page_title; ?></h1>
         <?php if (isset($current_category) && !empty($current_category['description'])): ?>
             <p><?php echo htmlspecialchars($current_category['description']); ?></p>
         <?php elseif (!isset($current_category) && !isset($current_tag) && !isset($search_term)): ?>
-            <p>Stay informed with our latest health tips, medical insights, and patient stories</p>
+            <p>Stay informed with our latest healthcare tips, medical insights, and wellness advice from our experienced doctors.</p>
         <?php endif; ?>
     </div>
 </section>
