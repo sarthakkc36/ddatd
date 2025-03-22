@@ -17,30 +17,30 @@
                 <h2>Send Us a Message</h2>
                 <p>Fill out the form below and we'll get back to you as soon as possible.</p>
                 
-                <form id="contactForm" class="contact-form" action="process_contact.php" method="POST">
+                <form action="https://formspree.io/f/mkgjrwwj" method="POST">
                     <div class="form-group">
                         <label for="name">Full Name *</label>
                         <input type="text" id="name" name="name" required>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="email">Email Address *</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="phone">Phone Number *</label>
                         <input type="tel" id="phone" name="phone" required>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject">
+                        <label for="subject">Subject *</label>
+                        <input type="text" id="subject" name="subject" required>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="message">Your Message *</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
+                        <textarea id="message" name="message" rows="6" required></textarea>
                     </div>
 
                     <div class="form-group">
