@@ -9,7 +9,7 @@ $log_file = "logs/contact_submissions.log";
 
 // Function to validate reCAPTCHA
 function verifyRecaptcha($recaptcha_response) {
-    $secret_key = "YOUR_RECAPTCHA_SECRET_KEY";
+    $secret_key = "6LeMkPwqAAAAAGoWHcfuDB-Rq1BBUZa5xD7dhKVr";
     $url = "https://www.google.com/recaptcha/api/siteverify";
     $data = [
         'secret' => $secret_key,

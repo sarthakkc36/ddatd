@@ -780,7 +780,7 @@ $currentSectionSettings = $allSettings[$currentSection] ?? [];
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="smtp_host">SMTP Host</label>
-                                    <input type="text" id="smtp_host" name="smtp_host" value="<?php echo htmlspecialchars($currentSectionSettings['smtp_host'] ?? ''); ?>">
+                                    <input type="text" id="smtp_host" name="smtp_host" value="<?php echo htmlspecialchars($currentSectionSettings['smtp_host'] ?? 'smtp.gmail.com'); ?>">
                                 </div>
                                 
                                 <div class="form-group">
@@ -792,12 +792,12 @@ $currentSectionSettings = $allSettings[$currentSection] ?? [];
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="smtp_username">SMTP Username</label>
-                                    <input type="text" id="smtp_username" name="smtp_username" value="<?php echo htmlspecialchars($currentSectionSettings['smtp_username'] ?? ''); ?>">
+                                    <input type="text" id="smtp_username" name="smtp_username" value="<?php echo htmlspecialchars($currentSectionSettings['smtp_username'] ?? 'noreplybloodbridge@gmail.com'); ?>">
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="smtp_password">SMTP Password</label>
-                                    <input type="password" id="smtp_password" name="smtp_password" value="<?php echo htmlspecialchars($currentSectionSettings['smtp_password'] ?? ''); ?>">
+                                    <input type="password" id="smtp_password" name="smtp_password" value="<?php echo htmlspecialchars($currentSectionSettings['smtp_password'] ?? 'bnjq miad atej kfot'); ?>">
                                 </div>
                             </div>
                             
@@ -813,18 +813,18 @@ $currentSectionSettings = $allSettings[$currentSection] ?? [];
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="from_email">From Email</label>
-                                    <input type="email" id="from_email" name="from_email" value="<?php echo htmlspecialchars($currentSectionSettings['from_email'] ?? ''); ?>">
+                                    <input type="email" id="from_email" name="from_email" value="<?php echo htmlspecialchars($currentSectionSettings['from_email'] ?? 'noreplybloodbridge@gmail.com'); ?>">
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="from_name">From Name</label>
-                                    <input type="text" id="from_name" name="from_name" value="<?php echo htmlspecialchars($currentSectionSettings['from_name'] ?? ''); ?>">
+                                    <input type="text" id="from_name" name="from_name" value="<?php echo htmlspecialchars($currentSectionSettings['from_name'] ?? 'Doctorsss'); ?>">
                                 </div>
                             </div>
                             
                             <div class="form-group">
                                 <label for="admin_notification_email">Admin Notification Email</label>
-                                <input type="email" id="admin_notification_email" name="admin_notification_email" value="<?php echo htmlspecialchars($currentSectionSettings['admin_notification_email'] ?? ''); ?>">
+                                <input type="email" id="admin_notification_email" name="admin_notification_email" value="<?php echo htmlspecialchars($currentSectionSettings['admin_notification_email'] ?? 'sarthakkc2072@gmail.com'); ?>">
                                 <small class="text-muted">Email address to receive admin notifications</small>
                             </div>
                             

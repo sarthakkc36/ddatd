@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+                        <div class="g-recaptcha" data-sitekey="6LeMkPwqAAAAAF2mOmW1N1OpEy6en8GGka3YusjX"></div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Send Message</button>

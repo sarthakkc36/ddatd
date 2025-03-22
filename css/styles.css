@@ -4916,3 +4916,76 @@ section {
         justify-content: center;
     }
 }
+/* Add this to your css/styles.css file - Mobile Menu Fix */
+
+/* Hamburger Menu Toggle Button */
+.nav-toggle {
+    display: none; /* Hidden by default on desktop */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    z-index: 1001;
+    position: relative;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: var(--dark-color);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Active state of the hamburger menu */
+.nav-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile menu styles - ensure these are properly defined */
+@media (max-width: 992px) {
+    .nav-toggle {
+        display: flex; /* Show hamburger menu on mobile */
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: var(--white);
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 2rem 0;
+        z-index: 1000;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+        box-shadow: var(--box-shadow);
+    }
+    
+    .nav-link {
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .cta-button {
+        margin-top: 1rem;
+    }
+}

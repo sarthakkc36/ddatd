@@ -147,14 +147,14 @@ class Settings {
                 'require_address' => '1'
             ],
             'email' => [
-                'smtp_host' => 'smtp.example.com',
+                'smtp_host' => 'smtp.gmail.com',
                 'smtp_port' => '587',
-                'smtp_username' => 'doctorsatdoorstep@gmail.com',
-                'smtp_password' => '',
+                'smtp_username' => 'noreplybloodbridge@gmail.com',
+                'smtp_password' => 'bnjq miad atej kfot',
                 'smtp_encryption' => 'tls',
-                'from_email' => 'doctorsatdoorstep@gmail.com',
+                'from_email' => 'noreplybloodbridge@gmail.com',
                 'from_name' => 'Doctors At Door Step',
-                'admin_notification_email' => 'admin@doctorsatdoorstep.com'
+                'admin_notification_email' => 'sarthakkc2072@gmail.com'
             ],
             'payment' => [
                 'currency' => 'NPR',

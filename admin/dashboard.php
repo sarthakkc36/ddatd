@@ -19,7 +19,7 @@ $recent_activity = get_recent_activity(5);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>                <img src="images/logo.png" alt="Doctors At Door Step"width="90px" height="80px"  />
+    <title>Doctors At Door Step
     </title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -361,15 +361,6 @@ $recent_activity = get_recent_activity(5);
             <a href="testimonials.php" class="menu-item">
                 <i class="fas fa-quote-right"></i> Testimonials
             </a>
-            <a href="inquiries.php" class="menu-item">
-                <i class="fas fa-envelope"></i> Inquiries
-            </a>
-            <a href="bookings.php" class="menu-item">
-                <i class="fas fa-calendar-check"></i> Bookings
-            </a>
-            <a href="settings.php" class="menu-item">
-                <i class="fas fa-cog"></i> Settings
-            </a>
             <a href="blog-management.php" class="menu-item">
                 <i class="fas fa-blog"></i> Blog
             </a>
@@ -378,6 +369,15 @@ $recent_activity = get_recent_activity(5);
             </a>
             <a href="blog-tags.php" class="menu-item">
                 <i class="fas fa-tags"></i> Blog Tags
+            </a>
+            <a href="inquiries.php" class="menu-item">
+                <i class="fas fa-envelope"></i> Inquiries
+            </a>
+            <a href="bookings.php" class="menu-item">
+                <i class="fas fa-calendar-check"></i> Bookings
+            </a>
+            <a href="settings.php" class="menu-item">
+                <i class="fas fa-cog"></i> Settings
             </a>
         </div>
         
