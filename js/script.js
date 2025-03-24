@@ -214,3 +214,42 @@ if ('loading' in HTMLImageElement.prototype) {
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
     document.body.appendChild(script);
 }
+/* Scroll to Top Button */
+document.addEventListener('DOMContentLoaded', () => {
+    // Create scroll to top button
+    const scrollToTopBtn = document.createElement('button');
+    scrollToTopBtn.id = 'scrollToTopBtn';
+    scrollToTopBtn.classList.add('scroll-to-top');
+    scrollToTopBtn.setAttribute('aria-label', 'Scroll to top');
+    scrollToTopBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    document.body.appendChild(scrollToTopBtn);
+
+    // Function to check scroll position and toggle button visibility
+    const toggleScrollButton = () => {
+        if (window.pageYOffset > 300) {
+            scrollToTopBtn.classList.add('show');
+        } else {
+            scrollToTopBtn.classList.remove('show');
+        }
+    };
+
+    // Function to scroll to top smoothly
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', toggleScrollButton);
+
+    // Add click event listener
+    scrollToTopBtn.addEventListener('click', scrollToTop);
+
+    // Clean up event listeners (optional, but good practice)
+    return () => {
+        window.removeEventListener('scroll', toggleScrollButton);
+        scrollToTopBtn.removeEventListener('click', scrollToTop);
+    };
+});

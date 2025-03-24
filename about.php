@@ -27,7 +27,7 @@ $teamMembers = $team->getAllActiveMembers();
                 <p>Over the years, we've grown from a small team of dedicated medical professionals to a comprehensive healthcare provider, serving thousands of families across Kathmandu. Our commitment to excellence and compassionate care remains at the heart of everything we do.</p>
             </div>
             <div class="story-image" data-aos="fade-left">
-                <img src="images/our-story.jpg" alt="Doctors At Door Step's Journey" loading="lazy">
+                <img src="images/logo.png" alt="Doctors At Door Step's Journey" loading="lazy">
             </div>
         </div>
     </div>
